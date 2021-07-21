@@ -10,6 +10,12 @@ class Dummy extends StatelessWidget {
 
   var options = ["Option 1", "Option 2", "Option 3"];
   var provinsi = ["Jawa Tengah", "Jawa Barrat", "Banten", "DKI Jakarta"];
+  var kota = [
+    "Kota Administrasi Jakarta Utara	",
+    "Kota Administrasi Jakarta Timur	",
+    "Kabupaten Lebak",
+    "Kabupaten Serang"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -271,6 +277,9 @@ class Dummy extends StatelessWidget {
                     "Provinsi",
                     style: TextPalette.fieldStyle,
                   ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   FormBuilderDropdown(
                     name: 'povinsi',
                     decoration: InputDecoration(
@@ -299,9 +308,54 @@ class Dummy extends StatelessWidget {
                             ))
                         .toList(),
                   ),
+                  // Expanded(
+                  //   child: Column(
+                  //     children: [
+                  //       SizedBox(
+                  //         height: 8,
+                  //       ),
+                  //       Text(
+                  //         "Kota/Kabupaten",
+                  //         style: TextPalette.fieldStyle,
+                  //       ),
+                  //       FormBuilderDropdown(
+                  //         name: 'kota-kabupaten',
+                  //         decoration: InputDecoration(
+                  //           focusedBorder: OutlineInputBorder(
+                  //             borderSide:
+                  //                 BorderSide(color: ColorPalette.gray300),
+                  //             borderRadius: BorderRadius.circular(20.0),
+                  //           ),
+                  //           enabledBorder: OutlineInputBorder(
+                  //             borderSide: BorderSide(
+                  //               color: ColorPalette.gray300,
+                  //             ),
+                  //             borderRadius: BorderRadius.circular(20.0),
+                  //           ),
+                  //           fillColor: ColorPalette.gray300,
+                  //           filled: true,
+                  //         ),
+                  //         // initialValue: 'Male',
+                  //         allowClear: true,
+                  //         hint: Text('Select Kota/Kabupaten'),
+                  //         validator: FormBuilderValidators.compose(
+                  //             [FormBuilderValidators.required(context)]),
+                  //         items: kota
+                  //             .map((kota) => DropdownMenuItem(
+                  //                   value: kota,
+                  //                   child: Text('$kota'),
+                  //                 ))
+                  //             .toList(),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // )
+                  
                 ],
               ),
+              
             ),
+            
           )
         ],
       )),
