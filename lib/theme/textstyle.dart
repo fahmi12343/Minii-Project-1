@@ -19,4 +19,10 @@ class TextPalette {
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
+
+  static TextStyle btnStyle = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
 }

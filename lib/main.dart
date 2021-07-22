@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_project/config/stringresource.dart';
-import 'package:mini_project/features/dashboard/presentation/pages/dummy.dart';
+import 'package:mini_project/features/dashboard/presentation/pages/lib_page_datadiri.dart';
 import 'package:mini_project/theme/color.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: ColorPalette.red,
       ),
       debugShowCheckedModeBanner: false,
-      home: Dummy(),
+      home: PageDataDiri(),
     );
   }
 }

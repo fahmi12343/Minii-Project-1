@@ -350,12 +350,9 @@ class Dummy extends StatelessWidget {
                   //     ],
                   //   ),
                   // )
-                  
                 ],
               ),
-              
             ),
-            
           )
         ],
       )),
