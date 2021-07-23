@@ -15,12 +15,146 @@ class PageDataDiri extends StatefulWidget {
 class _PageDataDiriState extends State<PageDataDiri> {
   final _formKey = GlobalKey<FormBuilderState>();
 
+  TextEditingController namaController = new TextEditingController();
+  TextEditingController tempatController = new TextEditingController();
+  TextEditingController jalanController = new TextEditingController();
+  TextEditingController jalanFixController = new TextEditingController();
+  TextEditingController tglController = new TextEditingController();
+
   var provinsi = ["Jakarta", "Bandung", "Banten"];
   var kota = ["Cengkareng", "Tangerang Selatan", "Cimahi"];
   var kecamatan = ["Cengkareng", "Pamulang"];
   var kelurahan = ["Cengkareng Timur", "Cengkareng Barat"];
   var rt = ["01", "02", "03", "04", "05"];
   var rw = ["001", "002", "003", "004", "005"];
+
+  String Jk = "";
+  String Provinsi = "";
+  String Kota = "";
+  String Kecamatan = "";
+  String Kelurahan = "";
+  String Rt = "";
+  String Rw = "";
+
+  String getProvinsi = "";
+  void _getData() {
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Container(
+        height: 400.0,
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Nama Lengkap : ${namaController.text}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Jk : ${Jk}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Tempat : ${tempatController.text}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Jalan : ${jalanController.text}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Tanggal : ${tglController.text}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Provinsi : ${Provinsi}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Kota : ${Kota}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Kecamatan : ${Kecamatan}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Kelurahan : ${Kelurahan}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Rt : ${Rt}"),
+            SizedBox(
+              height: 8,
+            ),
+            new Text("Rw : ${Rw}"),
+            SizedBox(
+              height: 25,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(right: 25, bottom: 8, left: 25),
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 4),
+                              blurRadius: 5.0)
+                        ],
+                        gradient: LinearGradient(
+                          // begin: Alignment.topLeft,
+                          // end: Alignment.bottomRight,
+                          stops: [0.0, 1.0],
+                          colors: [
+                            Colors.redAccent.shade700,
+                            Colors.red.shade400,
+                          ],
+                        ),
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          // elevation: MaterialStateProperty.all(3),
+                          shadowColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          StringResources.BTN_SEND_APP_OK,
+                          style: TextPalette.btnStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +267,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderTextField(
+                  controller: namaController,
                   name: 'nama',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -194,6 +329,11 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   options: ['Laki - Laki', 'Perempuan']
                       .map((lang) => FormBuilderFieldOption(value: lang))
                       .toList(growable: false),
+                  onChanged: (lang){
+                    setState(() {
+                      Jk = lang.toString();
+                    });
+                  },
                 ),
               ],
             ),
@@ -202,7 +342,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
       );
 
   Widget setTtl() => Padding(
-        padding: const EdgeInsets.only(top: 15,left: 25),
+        padding: const EdgeInsets.only(top: 15, left: 25),
         child: Row(
           children: [
             Flexible(
@@ -218,6 +358,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     ),
                   ),
                   FormBuilderTextField(
+                    controller: tempatController,
                     name: 'tempat',
                     decoration: new InputDecoration(
                       contentPadding: const EdgeInsets.all(15),
@@ -255,6 +396,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     ),
                   ),
                   FormBuilderDateTimePicker(
+                    controller: tglController,
                     name: 'date',
                     inputType: InputType.date,
                     decoration: new InputDecoration(
@@ -277,7 +419,6 @@ class _PageDataDiriState extends State<PageDataDiri> {
                       fillColor: ColorPalette.gray300,
                       filled: true,
                     ),
-                    
                   ),
                 ],
               ),
@@ -327,6 +468,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderTextField(
+                  controller: jalanController,
                   name: 'jalan',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -395,6 +537,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             child: Text('$provinsi'),
                           ))
                       .toList(),
+                  onChanged: (provinsi) {
+                    Provinsi = provinsi.toString();
+                  },
                 ),
               ],
             ),
@@ -444,6 +589,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             child: Text('$kota'),
                           ))
                       .toList(),
+                  onChanged: (kota) {
+                    Kota = kota.toString();
+                  },
                 ),
               ],
             ),
@@ -493,6 +641,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             child: Text('$kecamatan'),
                           ))
                       .toList(),
+                  onChanged: (kecamatan) {
+                    Kecamatan = kecamatan.toString();
+                  },
                 ),
               ],
             ),
@@ -542,6 +693,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             child: Text('$kelurahan'),
                           ))
                       .toList(),
+                  onChanged: (kelurahan) {
+                    Kelurahan = kelurahan.toString();
+                  },
                 ),
               ],
             ),
@@ -550,7 +704,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
       );
 
   Widget setRtRw() => Padding(
-        padding: const EdgeInsets.only(top: 15,left: 25),
+        padding: const EdgeInsets.only(top: 15, left: 25),
         child: Row(
           children: [
             Flexible(
@@ -592,6 +746,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
                               child: Text('$rt'),
                             ))
                         .toList(),
+                    onChanged: (rt) {
+                      Rt = rt.toString();
+                    },
                   ),
                 ],
               ),
@@ -639,6 +796,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
                               child: Text('$rw'),
                             ))
                         .toList(),
+                    onChanged: (rw) {
+                      Rw = rw.toString();
+                    },
                   ),
                 ],
               ),
@@ -702,6 +862,15 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     // errorText:
                     //     'You must accept terms and conditions to continue',
                   ),
+                  onChanged: (checkbox){
+                    if(checkbox == true){
+                      jalanFixController.text = jalanController.text;
+                      getProvinsi = Provinsi;
+                      
+                    }else{
+                      print("salah");
+                    }
+                  },
                 ),
               ],
             ),
@@ -712,7 +881,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
   Widget setJalanFix() => Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 25, right: 25, left: 25),
+            padding: const EdgeInsets.only(top: 10, right: 25, left: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -725,6 +894,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderTextField(
+                  controller: jalanFixController,
                   name: 'jalanFix',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -782,7 +952,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     fillColor: ColorPalette.gray300,
                     filled: true,
                   ),
-                  // initialValue: 'Male',
+                  // initialValue: 'male',
                   allowClear: true,
                   hint: Text('Select Provinsi'),
                   validator: FormBuilderValidators.compose(
@@ -793,6 +963,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             child: Text('$provinsi'),
                           ))
                       .toList(),
+                      
                 ),
               ],
             ),
@@ -948,7 +1119,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
       );
 
   Widget setRtRwFix() => Padding(
-        padding: const EdgeInsets.only(top: 15,left: 25),
+        padding: const EdgeInsets.only(top: 15, left: 25),
         child: Row(
           children: [
             Flexible(
@@ -1063,8 +1234,8 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     blurRadius: 5.0)
               ],
               gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                // begin: Alignment.topLeft,
+                // end: Alignment.bottomRight,
                 stops: [0.0, 1.0],
                 colors: [
                   Colors.redAccent.shade700,
@@ -1086,6 +1257,8 @@ class _PageDataDiriState extends State<PageDataDiri> {
                 shadowColor: MaterialStateProperty.all(Colors.transparent),
               ),
               onPressed: () {
+                _getData();
+
                 setState(() {
                   FocusScope.of(context).unfocus();
                 });

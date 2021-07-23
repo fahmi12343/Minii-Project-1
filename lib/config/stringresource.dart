@@ -9,6 +9,7 @@ class StringResources {
   static const String TEXT_APLICATION_TITLE = "Mini Project";
   static const String BTN_START_APP_TITLE = "Ayo Mulai";
   static const String BTN_SEND_APP_TITLE = "Simpan";
+  static const String BTN_SEND_APP_OK = "OK";
   static const String TEXT_SUCCESS_MESSAGE = "Sukses";
   static const String TEXT_LOADDING = 'Loadding...';
   static const String COM_ICON_LIST = 'home';
