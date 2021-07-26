@@ -10,10 +10,13 @@ class PageDataDiri extends StatefulWidget {
 
   @override
   _PageDataDiriState createState() => _PageDataDiriState();
+  
 }
 
 class _PageDataDiriState extends State<PageDataDiri> {
   final _formKey = GlobalKey<FormBuilderState>();
+  
+
 
   TextEditingController namaController = new TextEditingController();
   TextEditingController tempatController = new TextEditingController();
@@ -36,7 +39,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
   String Rt = "";
   String Rw = "";
 
-  String getProvinsi = "";
+
+
+  String GetProvinsi = "";
   void _getData() {
     AlertDialog alertDialog = new AlertDialog(
       content: new Container(
@@ -538,7 +543,10 @@ class _PageDataDiriState extends State<PageDataDiri> {
                           ))
                       .toList(),
                   onChanged: (provinsi) {
-                    Provinsi = provinsi.toString();
+                    setState(() {
+                      Provinsi = provinsi.toString();
+                      GetProvinsi = Provinsi.toString();
+                    });
                   },
                 ),
               ],
@@ -865,7 +873,8 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   onChanged: (checkbox){
                     if(checkbox == true){
                       jalanFixController.text = jalanController.text;
-                      getProvinsi = Provinsi;
+                      GetProvinsi = Provinsi;
+                      print('provinsi ' + GetProvinsi);
                       
                     }else{
                       print("salah");
@@ -937,7 +946,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderDropdown(
-                  name: 'povinsiFix',
+                  name: GetProvinsi,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: ColorPalette.gray300),
@@ -952,10 +961,12 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     fillColor: ColorPalette.gray300,
                     filled: true,
                   ),
-                  // initialValue: 'male',
+                  initialValue: GetProvinsi.toString(),
                   allowClear: true,
+                  
                   hint: Text('Select Provinsi'),
                   validator: FormBuilderValidators.compose(
+                    
                       [FormBuilderValidators.required(context)]),
                   items: provinsi
                       .map((provinsi) => DropdownMenuItem(

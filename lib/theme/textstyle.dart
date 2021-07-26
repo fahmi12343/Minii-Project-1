@@ -5,6 +5,7 @@ class TextPalette {
   static TextStyle secondaryTxtStyle = TextStyle(
     color: ColorPalette.black,
     fontWeight: FontWeight.bold,
+    fontFamily: 'Poppins',
     fontSize: 22,
   );
 
@@ -17,6 +18,7 @@ class TextPalette {
   static TextStyle fieldStyle = TextStyle(
     color: ColorPalette.black,
     fontWeight: FontWeight.bold,
+    fontFamily: 'Poppins',
     fontSize: 16,
   );
 
