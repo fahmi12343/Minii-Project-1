@@ -1,1595 +1,1541 @@
-define(['dart_sdk', 'packages/flutter/src/foundation/observer_list.dart', 'packages/flutter/src/foundation/debug.dart', 'packages/flutter/src/foundation/change_notifier.dart', 'packages/flutter/src/foundation/object.dart', 'packages/flutter/src/animation/curves.dart'], (function load__packages__flutter__src__animation__listener_helpers_dart(dart_sdk, packages__flutter__src__foundation__observer_list$46dart, packages__flutter__src__foundation__debug$46dart, packages__flutter__src__foundation__change_notifier$46dart, packages__flutter__src__foundation__object$46dart, packages__flutter__src__animation__curves$46dart) {
+define(['dart_sdk', 'packages/intl/src/intl_helpers.dart', 'packages/intl/src/intl/date_builder.dart', 'packages/intl/src/intl/intl_stream.dart', 'packages/intl/src/date_format_internal.dart', 'packages/intl/date_symbols.dart', 'packages/intl/src/intl/constants.dart', 'packages/intl/src/intl/regexp.dart', 'packages/intl/src/intl/date_computation.dart'], (function load__packages__intl__src__intl__date_format_dart(dart_sdk, packages__intl__src__intl_helpers$46dart, packages__intl__src__intl__date_builder$46dart, packages__intl__src__intl__intl_stream$46dart, packages__intl__src__date_format_internal$46dart, packages__intl__date_symbols$46dart, packages__intl__src__intl__constants$46dart, packages__intl__src__intl__regexp$46dart, packages__intl__src__intl__date_computation$46dart) {
   'use strict';
   const core = dart_sdk.core;
-  const _js_helper = dart_sdk._js_helper;
-  const math = dart_sdk.math;
   const _interceptors = dart_sdk._interceptors;
-  const ui = dart_sdk.ui;
+  const _js_helper = dart_sdk._js_helper;
   const dart = dart_sdk.dart;
   const dartx = dart_sdk.dartx;
-  const observer_list = packages__flutter__src__foundation__observer_list$46dart.src__foundation__observer_list;
-  const diagnostics = packages__flutter__src__foundation__debug$46dart.src__foundation__diagnostics;
-  const assertions = packages__flutter__src__foundation__debug$46dart.src__foundation__assertions;
-  const change_notifier = packages__flutter__src__foundation__change_notifier$46dart.src__foundation__change_notifier;
-  const object = packages__flutter__src__foundation__object$46dart.src__foundation__object;
-  const curves = packages__flutter__src__animation__curves$46dart.src__animation__curves;
-  var listener_helpers = Object.create(dart.library);
-  var animations = Object.create(dart.library);
-  var tween = Object.create(dart.library);
-  var animation$ = Object.create(dart.library);
-  var $runtimeType = dartx.runtimeType;
-  var $toStringAsFixed = dartx.toStringAsFixed;
-  var $round = dartx.round;
-  var $toDouble = dartx.toDouble;
+  const intl_helpers = packages__intl__src__intl_helpers$46dart.src__intl_helpers;
+  const date_builder = packages__intl__src__intl__date_builder$46dart.src__intl__date_builder;
+  const intl_stream = packages__intl__src__intl__intl_stream$46dart.src__intl__intl_stream;
+  const date_format_internal = packages__intl__src__date_format_internal$46dart.src__date_format_internal;
+  const date_symbols = packages__intl__date_symbols$46dart.date_symbols;
+  const constants = packages__intl__src__intl__constants$46dart.src__intl__constants;
+  const regexp = packages__intl__src__intl__regexp$46dart.src__intl__regexp;
+  const date_computation = packages__intl__src__intl__date_computation$46dart.src__intl__date_computation;
+  var date_format = Object.create(dart.library);
+  var $toLowerCase = dartx.toLowerCase;
+  var $every = dartx.every;
+  var $containsKey = dartx.containsKey;
+  var $_get = dartx._get;
+  var $_set = dartx._set;
+  var $putIfAbsent = dartx.putIfAbsent;
+  var $codeUnitAt = dartx.codeUnitAt;
+  var $codeUnits = dartx.codeUnits;
+  var $map = dartx.map;
+  var $toList = dartx.toList;
+  var $reversed = dartx.reversed;
+  var $isEmpty = dartx.isEmpty;
+  var $substring = dartx.substring;
   var $add = dartx.add;
-  var $floor = dartx.floor;
+  var $length = dartx.length;
+  var $trim = dartx.trim;
+  var $replaceAll = dartx.replaceAll;
+  var $contains = dartx.contains;
+  var $modulo = dartx['%'];
+  var $compareTo = dartx.compareTo;
+  var $sort = dartx.sort;
+  var $last = dartx.last;
+  var $truncate = dartx.truncate;
+  var $padLeft = dartx.padLeft;
   dart._checkModuleNullSafetyMode(true);
-  var T$ = {
-    VoidTovoid: () => (T$.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
-    ObserverListOfVoidTovoid: () => (T$.ObserverListOfVoidTovoid = dart.constFn(observer_list.ObserverList$(T$.VoidTovoid())))(),
-    ListOfVoidTovoid: () => (T$.ListOfVoidTovoid = dart.constFn(core.List$(T$.VoidTovoid())))(),
-    DiagnosticsPropertyOfAnimationLocalListenersMixin: () => (T$.DiagnosticsPropertyOfAnimationLocalListenersMixin = dart.constFn(diagnostics.DiagnosticsProperty$(listener_helpers.AnimationLocalListenersMixin)))(),
-    SyncIterableOfDiagnosticsNode: () => (T$.SyncIterableOfDiagnosticsNode = dart.constFn(_js_helper.SyncIterable$(diagnostics.DiagnosticsNode)))(),
-    IterableOfDiagnosticsNode: () => (T$.IterableOfDiagnosticsNode = dart.constFn(core.Iterable$(diagnostics.DiagnosticsNode)))(),
-    VoidToIterableOfDiagnosticsNode: () => (T$.VoidToIterableOfDiagnosticsNode = dart.constFn(dart.fnType(T$.IterableOfDiagnosticsNode(), [])))(),
-    VoidTobool: () => (T$.VoidTobool = dart.constFn(dart.fnType(core.bool, [])))(),
-    AnimationStatusTovoid: () => (T$.AnimationStatusTovoid = dart.constFn(dart.fnType(dart.void, [animation$.AnimationStatus])))(),
-    ObserverListOfAnimationStatusTovoid: () => (T$.ObserverListOfAnimationStatusTovoid = dart.constFn(observer_list.ObserverList$(T$.AnimationStatusTovoid())))(),
-    ListOfAnimationStatusTovoid: () => (T$.ListOfAnimationStatusTovoid = dart.constFn(core.List$(T$.AnimationStatusTovoid())))(),
-    DiagnosticsPropertyOfAnimationLocalStatusListenersMixin: () => (T$.DiagnosticsPropertyOfAnimationLocalStatusListenersMixin = dart.constFn(diagnostics.DiagnosticsProperty$(listener_helpers.AnimationLocalStatusListenersMixin)))(),
-    AnimationOfdouble: () => (T$.AnimationOfdouble = dart.constFn(animation$.Animation$(core.double)))(),
-    JSArrayOfDiagnosticsNode: () => (T$.JSArrayOfDiagnosticsNode = dart.constFn(_interceptors.JSArray$(diagnostics.DiagnosticsNode)))()
+  var T = {
+    intAndintAndint__ToDateTime: () => (T.intAndintAndint__ToDateTime = dart.constFn(dart.fnType(core.DateTime, [core.int, core.int, core.int, core.int, core.int, core.int, core.int, core.bool])))(),
+    dynamicTobool: () => (T.dynamicTobool = dart.constFn(dart.fnType(core.bool, [dart.dynamic])))(),
+    StringN: () => (T.StringN = dart.constFn(dart.nullable(core.String)))(),
+    _DateFormatFieldTobool: () => (T._DateFormatFieldTobool = dart.constFn(dart.fnType(core.bool, [date_format._DateFormatField])))(),
+    ListOfString: () => (T.ListOfString = dart.constFn(core.List$(core.String)))(),
+    DateSymbolsN: () => (T.DateSymbolsN = dart.constFn(dart.nullable(date_symbols.DateSymbols)))(),
+    ListOfint: () => (T.ListOfint = dart.constFn(core.List$(core.int)))(),
+    IterableOfint: () => (T.IterableOfint = dart.constFn(core.Iterable$(core.int)))(),
+    intToint: () => (T.intToint = dart.constFn(dart.fnType(core.int, [core.int])))(),
+    StringAndDateFormatTo_DateFormatQuotedField: () => (T.StringAndDateFormatTo_DateFormatQuotedField = dart.constFn(dart.fnType(date_format._DateFormatQuotedField, [core.String, date_format.DateFormat])))(),
+    StringAndDateFormatTo_DateFormatPatternField: () => (T.StringAndDateFormatTo_DateFormatPatternField = dart.constFn(dart.fnType(date_format._DateFormatPatternField, [core.String, date_format.DateFormat])))(),
+    StringAndDateFormatTo_DateFormatLiteralField: () => (T.StringAndDateFormatTo_DateFormatLiteralField = dart.constFn(dart.fnType(date_format._DateFormatLiteralField, [core.String, date_format.DateFormat])))(),
+    StringAndDateFormatTo_DateFormatField: () => (T.StringAndDateFormatTo_DateFormatField = dart.constFn(dart.fnType(date_format._DateFormatField, [core.String, date_format.DateFormat])))(),
+    JSArrayOfStringAndDateFormatTo_DateFormatField: () => (T.JSArrayOfStringAndDateFormatTo_DateFormatField = dart.constFn(_interceptors.JSArray$(T.StringAndDateFormatTo_DateFormatField())))(),
+    JSArrayOf_DateFormatField: () => (T.JSArrayOf_DateFormatField = dart.constFn(_interceptors.JSArray$(date_format._DateFormatField)))(),
+    JSArrayOfRegExp: () => (T.JSArrayOfRegExp = dart.constFn(_interceptors.JSArray$(core.RegExp)))(),
+    IdentityMapOfString$bool: () => (T.IdentityMapOfString$bool = dart.constFn(_js_helper.IdentityMap$(core.String, core.bool)))(),
+    IdentityMapOfString$RegExp: () => (T.IdentityMapOfString$RegExp = dart.constFn(_js_helper.IdentityMap$(core.String, core.RegExp)))(),
+    StringToString: () => (T.StringToString = dart.constFn(dart.fnType(core.String, [core.String])))(),
+    JSArrayOfListOfString: () => (T.JSArrayOfListOfString = dart.constFn(_interceptors.JSArray$(T.ListOfString())))(),
+    intTovoid: () => (T.intTovoid = dart.constFn(dart.fnType(dart.void, [core.int])))(),
+    dynamicAnddynamicToint: () => (T.dynamicAnddynamicToint = dart.constFn(dart.fnType(core.int, [dart.dynamic, dart.dynamic])))()
   };
   const CT = Object.create({
     _: () => (C, CT)
   });
   dart.defineLazy(CT, {
     get C0() {
-      return C[0] = dart.const({
-        __proto__: animation$.AnimationStatus.prototype,
-        [_name$]: "AnimationStatus.forward",
-        index: 1
-      });
-    },
-    get C1() {
-      return C[1] = dart.const({
-        __proto__: animation$.AnimationStatus.prototype,
-        [_name$]: "AnimationStatus.reverse",
-        index: 2
-      });
-    },
-    get C2() {
-      return C[2] = dart.const({
-        __proto__: animation$.AnimationStatus.prototype,
-        [_name$]: "AnimationStatus.completed",
-        index: 3
-      });
-    },
-    get C3() {
-      return C[3] = dart.const({
-        __proto__: animation$.AnimationStatus.prototype,
-        [_name$]: "AnimationStatus.dismissed",
-        index: 0
-      });
-    },
-    get C4() {
-      return C[4] = dart.const({
-        __proto__: animations._TrainHoppingMode.prototype,
-        [_name$0]: "_TrainHoppingMode.minimize",
-        index: 0
-      });
-    },
-    get C5() {
-      return C[5] = dart.const({
-        __proto__: animations._TrainHoppingMode.prototype,
-        [_name$0]: "_TrainHoppingMode.maximize",
-        index: 1
-      });
-    },
-    get C6() {
-      return C[6] = dart.constList([C[4] || CT.C4, C[5] || CT.C5], animations._TrainHoppingMode);
-    },
-    get C7() {
-      return C[7] = dart.const({
-        __proto__: animations._AlwaysCompleteAnimation.prototype
-      });
-    },
-    get C8() {
-      return C[8] = dart.const({
-        __proto__: animations._AlwaysDismissedAnimation.prototype
-      });
-    },
-    get C9() {
-      return C[9] = dart.constList([C[3] || CT.C3, C[0] || CT.C0, C[1] || CT.C1, C[2] || CT.C2], animation$.AnimationStatus);
+      return C[0] = dart.fn(date_format.DateFormat.localeExists, T.dynamicTobool());
     }
   }, false);
-  var C = Array(10).fill(void 0);
-  var I = [
-    "file:///E:/FLUTTER/Flutter%20SDK/flutter/packages/flutter/lib/src/animation/listener_helpers.dart",
-    "package:flutter/src/animation/listener_helpers.dart",
-    "file:///E:/FLUTTER/Flutter%20SDK/flutter/packages/flutter/lib/src/animation/animation.dart",
-    "package:flutter/src/animation/animation.dart",
-    "package:flutter/src/animation/animations.dart",
-    "file:///E:/FLUTTER/Flutter%20SDK/flutter/packages/flutter/lib/src/animation/animations.dart",
-    "package:flutter/src/animation/tween.dart",
-    "file:///E:/FLUTTER/Flutter%20SDK/flutter/packages/flutter/lib/src/animation/tween.dart"
-  ];
-  var _listenerCounter = dart.privateName(listener_helpers, "_listenerCounter");
-  listener_helpers.AnimationLazyListenerMixin = class AnimationLazyListenerMixin extends core.Object {};
-  listener_helpers.AnimationLazyListenerMixin[dart.mixinOn] = Object => class AnimationLazyListenerMixin extends Object {
-    didRegisterListener() {
-      if (!(this[_listenerCounter] >= 0)) dart.assertFailed(null, I[0], 27, 12, "_listenerCounter >= 0");
-      if (this[_listenerCounter] === 0) this.didStartListening();
-      this[_listenerCounter] = this[_listenerCounter] + 1;
+  var C = [void 0];
+  var I = ["package:intl/src/intl/date_format.dart"];
+  var dateTimeConstructor = dart.privateName(date_format, "DateFormat.dateTimeConstructor");
+  var _dateOnly = dart.privateName(date_format, "_dateOnly");
+  var _pattern = dart.privateName(date_format, "_pattern");
+  var _formatFieldsPrivate = dart.privateName(date_format, "_formatFieldsPrivate");
+  var _useNativeDigits = dart.privateName(date_format, "_useNativeDigits");
+  var _digitMatcher = dart.privateName(date_format, "_digitMatcher");
+  var _localeZeroCodeUnit = dart.privateName(date_format, "_localeZeroCodeUnit");
+  var _localeZero = dart.privateName(date_format, "_localeZero");
+  var _locale = dart.privateName(date_format, "_locale");
+  var _formatFields = dart.privateName(date_format, "_formatFields");
+  var _parse = dart.privateName(date_format, "_parse");
+  var _parseLoose = dart.privateName(date_format, "_parseLoose");
+  var _checkDateOnly = dart.privateName(date_format, "_checkDateOnly");
+  var _useDefaultPattern = dart.privateName(date_format, "_useDefaultPattern");
+  var _appendPattern = dart.privateName(date_format, "_appendPattern");
+  var _availableSkeletons = dart.privateName(date_format, "_availableSkeletons");
+  var _initDigitMatcher = dart.privateName(date_format, "_initDigitMatcher");
+  var _localizeDigits = dart.privateName(date_format, "_localizeDigits");
+  var _parsePatternHelper = dart.privateName(date_format, "_parsePatternHelper");
+  var _match = dart.privateName(date_format, "_match");
+  date_format.DateFormat = class DateFormat extends core.Object {
+    get dateTimeConstructor() {
+      return this[dateTimeConstructor];
     }
-    didUnregisterListener() {
-      if (!(this[_listenerCounter] >= 1)) dart.assertFailed(null, I[0], 40, 12, "_listenerCounter >= 1");
-      this[_listenerCounter] = this[_listenerCounter] - 1;
-      if (this[_listenerCounter] === 0) this.didStopListening();
+    set dateTimeConstructor(value) {
+      this[dateTimeConstructor] = value;
     }
-    get isListening() {
-      return this[_listenerCounter] > 0;
+    format(date) {
+      let result = new core.StringBuffer.new();
+      for (let field of this[_formatFields]) {
+        result.write(field.format(date));
+      }
+      return result.toString();
     }
-  };
-  (listener_helpers.AnimationLazyListenerMixin[dart.mixinNew] = function() {
-    this[_listenerCounter] = 0;
-  }).prototype = listener_helpers.AnimationLazyListenerMixin.prototype;
-  dart.addTypeTests(listener_helpers.AnimationLazyListenerMixin);
-  dart.addTypeCaches(listener_helpers.AnimationLazyListenerMixin);
-  listener_helpers.AnimationLazyListenerMixin[dart.implements] = () => [core.Object];
-  dart.setMethodSignature(listener_helpers.AnimationLazyListenerMixin, () => ({
-    __proto__: dart.getMethods(listener_helpers.AnimationLazyListenerMixin.__proto__),
-    didRegisterListener: dart.fnType(dart.void, []),
-    didUnregisterListener: dart.fnType(dart.void, [])
-  }));
-  dart.setGetterSignature(listener_helpers.AnimationLazyListenerMixin, () => ({
-    __proto__: dart.getGetters(listener_helpers.AnimationLazyListenerMixin.__proto__),
-    isListening: core.bool
-  }));
-  dart.setLibraryUri(listener_helpers.AnimationLazyListenerMixin, I[1]);
-  dart.setFieldSignature(listener_helpers.AnimationLazyListenerMixin, () => ({
-    __proto__: dart.getFields(listener_helpers.AnimationLazyListenerMixin.__proto__),
-    [_listenerCounter]: dart.fieldType(core.int)
-  }));
-  listener_helpers.AnimationEagerListenerMixin = class AnimationEagerListenerMixin extends core.Object {};
-  listener_helpers.AnimationEagerListenerMixin[dart.mixinOn] = Object => class AnimationEagerListenerMixin extends Object {
-    didRegisterListener() {
+    formatDuration(reference) {
+      return "";
     }
-    didUnregisterListener() {
+    formatDurationFrom(duration, date) {
+      return "";
     }
-    dispose() {
+    parse(inputString, utc = false) {
+      return this[_parse](inputString, {utc: utc, strict: false});
     }
-  };
-  (listener_helpers.AnimationEagerListenerMixin[dart.mixinNew] = function() {
-  }).prototype = listener_helpers.AnimationEagerListenerMixin.prototype;
-  dart.addTypeTests(listener_helpers.AnimationEagerListenerMixin);
-  dart.addTypeCaches(listener_helpers.AnimationEagerListenerMixin);
-  listener_helpers.AnimationEagerListenerMixin[dart.implements] = () => [core.Object];
-  dart.setMethodSignature(listener_helpers.AnimationEagerListenerMixin, () => ({
-    __proto__: dart.getMethods(listener_helpers.AnimationEagerListenerMixin.__proto__),
-    didRegisterListener: dart.fnType(dart.void, []),
-    didUnregisterListener: dart.fnType(dart.void, []),
-    dispose: dart.fnType(dart.void, [])
-  }));
-  dart.setLibraryUri(listener_helpers.AnimationEagerListenerMixin, I[1]);
-  var _listeners = dart.privateName(listener_helpers, "_listeners");
-  listener_helpers.AnimationLocalListenersMixin = class AnimationLocalListenersMixin extends core.Object {};
-  listener_helpers.AnimationLocalListenersMixin[dart.mixinOn] = Object => class AnimationLocalListenersMixin extends Object {
-    addListener(listener) {
-      this.didRegisterListener();
-      this[_listeners].add(listener);
-    }
-    removeListener(listener) {
-      let removed = this[_listeners].remove(listener);
-      if (removed) {
-        this.didUnregisterListener();
+    parseLoose(inputString, utc = false) {
+      try {
+        return this[_parse](inputString, {utc: utc, strict: true});
+      } catch (e) {
+        let ex = dart.getThrown(e);
+        if (core.FormatException.is(ex)) {
+          return this[_parseLoose](inputString[$toLowerCase](), utc);
+        } else
+          throw e;
       }
     }
-    notifyListeners() {
-      let localListeners = T$.ListOfVoidTovoid().from(this[_listeners]);
-      for (let listener of localListeners) {
-        let collector = null;
-        if (!dart.fn(() => {
-          collector = dart.fn(() => new (T$.SyncIterableOfDiagnosticsNode()).new((function*() {
-            yield new (T$.DiagnosticsPropertyOfAnimationLocalListenersMixin()).new("The " + dart.str(this[$runtimeType]) + " notifying listeners was", this, {style: diagnostics.DiagnosticsTreeStyle.errorProperty});
-          }).bind(this)), T$.VoidToIterableOfDiagnosticsNode());
-          return true;
-        }, T$.VoidTobool())()) dart.assertFailed(null, I[0], 124, 14, "() {\r\n        collector = () sync* {\r\n          yield DiagnosticsProperty<AnimationLocalListenersMixin>(\r\n            'The $runtimeType notifying listeners was',\r\n            this,\r\n            style: DiagnosticsTreeStyle.errorProperty,\r\n          );\r\n        };\r\n        return true;\r\n      }()");
-        try {
-          if (this[_listeners].contains(listener)) listener();
-        } catch (e) {
-          let exception = dart.getThrown(e);
-          let stack = dart.stackTrace(e);
-          if (core.Object.is(exception)) {
-            assertions.FlutterError.reportError(new assertions.FlutterErrorDetails.new({exception: exception, stack: stack, library: "animation library", context: new assertions.ErrorDescription.new("while notifying listeners for " + dart.str(this[$runtimeType])), informationCollector: collector}));
-          } else
-            throw e;
-        }
+    [_parseLoose](inputString, utc) {
+      let dateFields = new date_builder.DateBuilder.new(this.locale, this.dateTimeConstructor);
+      if (utc) dateFields.utc = true;
+      let stream = new intl_stream.IntlStream.new(inputString);
+      for (let field of this[_formatFields]) {
+        field.parseLoose(stream, dateFields);
       }
-    }
-  };
-  (listener_helpers.AnimationLocalListenersMixin[dart.mixinNew] = function() {
-    this[_listeners] = new (T$.ObserverListOfVoidTovoid()).new();
-  }).prototype = listener_helpers.AnimationLocalListenersMixin.prototype;
-  dart.addTypeTests(listener_helpers.AnimationLocalListenersMixin);
-  dart.addTypeCaches(listener_helpers.AnimationLocalListenersMixin);
-  listener_helpers.AnimationLocalListenersMixin[dart.implements] = () => [core.Object];
-  dart.setMethodSignature(listener_helpers.AnimationLocalListenersMixin, () => ({
-    __proto__: dart.getMethods(listener_helpers.AnimationLocalListenersMixin.__proto__),
-    addListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    removeListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    notifyListeners: dart.fnType(dart.void, [])
-  }));
-  dart.setLibraryUri(listener_helpers.AnimationLocalListenersMixin, I[1]);
-  dart.setFieldSignature(listener_helpers.AnimationLocalListenersMixin, () => ({
-    __proto__: dart.getFields(listener_helpers.AnimationLocalListenersMixin.__proto__),
-    [_listeners]: dart.finalFieldType(observer_list.ObserverList$(dart.fnType(dart.void, [])))
-  }));
-  var _statusListeners = dart.privateName(listener_helpers, "_statusListeners");
-  listener_helpers.AnimationLocalStatusListenersMixin = class AnimationLocalStatusListenersMixin extends core.Object {};
-  listener_helpers.AnimationLocalStatusListenersMixin[dart.mixinOn] = Object => class AnimationLocalStatusListenersMixin extends Object {
-    addStatusListener(listener) {
-      this.didRegisterListener();
-      this[_statusListeners].add(listener);
-    }
-    removeStatusListener(listener) {
-      let removed = this[_statusListeners].remove(listener);
-      if (removed) {
-        this.didUnregisterListener();
+      if (!stream.atEnd()) {
+        dart.throw(new core.FormatException.new("Characters remaining after date parsing in " + inputString));
       }
+      dateFields.verify(inputString);
+      return dateFields.asDate();
     }
-    notifyStatusListeners(status) {
-      let localListeners = T$.ListOfAnimationStatusTovoid().from(this[_statusListeners]);
-      for (let listener of localListeners) {
-        try {
-          if (this[_statusListeners].contains(listener)) listener(status);
-        } catch (e) {
-          let exception = dart.getThrown(e);
-          let stack = dart.stackTrace(e);
-          if (core.Object.is(exception)) {
-            let collector = null;
-            if (!dart.fn(() => {
-              collector = dart.fn(() => new (T$.SyncIterableOfDiagnosticsNode()).new((function*() {
-                yield new (T$.DiagnosticsPropertyOfAnimationLocalStatusListenersMixin()).new("The " + dart.str(this[$runtimeType]) + " notifying status listeners was", this, {style: diagnostics.DiagnosticsTreeStyle.errorProperty});
-              }).bind(this)), T$.VoidToIterableOfDiagnosticsNode());
-              return true;
-            }, T$.VoidTobool())()) dart.assertFailed(null, I[0], 202, 16, "() {\r\n          collector = () sync* {\r\n            yield DiagnosticsProperty<AnimationLocalStatusListenersMixin>(\r\n              'The $runtimeType notifying status listeners was',\r\n              this,\r\n              style: DiagnosticsTreeStyle.errorProperty,\r\n            );\r\n          };\r\n          return true;\r\n        }()");
-            assertions.FlutterError.reportError(new assertions.FlutterErrorDetails.new({exception: exception, stack: stack, library: "animation library", context: new assertions.ErrorDescription.new("while notifying status listeners for " + dart.str(this[$runtimeType])), informationCollector: collector}));
-          } else
-            throw e;
-        }
+    parseStrict(inputString, utc = false) {
+      return this[_parse](inputString, {utc: utc, strict: true});
+    }
+    [_parse](inputString, opts) {
+      let utc = opts && 'utc' in opts ? opts.utc : false;
+      let strict = opts && 'strict' in opts ? opts.strict : false;
+      let dateFields = new date_builder.DateBuilder.new(this.locale, this.dateTimeConstructor);
+      if (utc) dateFields.utc = true;
+      dateFields.dateOnly = this.dateOnly;
+      let stream = new intl_stream.IntlStream.new(inputString);
+      for (let field of this[_formatFields]) {
+        field.parse(stream, dateFields);
       }
-    }
-  };
-  (listener_helpers.AnimationLocalStatusListenersMixin[dart.mixinNew] = function() {
-    this[_statusListeners] = new (T$.ObserverListOfAnimationStatusTovoid()).new();
-  }).prototype = listener_helpers.AnimationLocalStatusListenersMixin.prototype;
-  dart.addTypeTests(listener_helpers.AnimationLocalStatusListenersMixin);
-  dart.addTypeCaches(listener_helpers.AnimationLocalStatusListenersMixin);
-  listener_helpers.AnimationLocalStatusListenersMixin[dart.implements] = () => [core.Object];
-  dart.setMethodSignature(listener_helpers.AnimationLocalStatusListenersMixin, () => ({
-    __proto__: dart.getMethods(listener_helpers.AnimationLocalStatusListenersMixin.__proto__),
-    addStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])]),
-    removeStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])]),
-    notifyStatusListeners: dart.fnType(dart.void, [animation$.AnimationStatus])
-  }));
-  dart.setLibraryUri(listener_helpers.AnimationLocalStatusListenersMixin, I[1]);
-  dart.setFieldSignature(listener_helpers.AnimationLocalStatusListenersMixin, () => ({
-    __proto__: dart.getFields(listener_helpers.AnimationLocalStatusListenersMixin.__proto__),
-    [_statusListeners]: dart.finalFieldType(observer_list.ObserverList$(dart.fnType(dart.void, [animation$.AnimationStatus])))
-  }));
-  var _name$ = dart.privateName(animation$, "_name");
-  const _is_Animation_default = Symbol('_is_Animation_default');
-  animation$.Animation$ = dart.generic(T => {
-    class Animation extends change_notifier.Listenable {
-      get isDismissed() {
-        return this.status === animation$.AnimationStatus.dismissed;
+      if (strict && !stream.atEnd()) {
+        dart.throw(new core.FormatException.new("Characters remaining after date parsing in " + inputString));
       }
-      get isCompleted() {
-        return this.status === animation$.AnimationStatus.completed;
-      }
-      drive(U, child) {
-        if (!T$.AnimationOfdouble().is(this)) dart.assertFailed(null, I[2], 169, 12, "this is Animation<double>");
-        return child.animate(T$.AnimationOfdouble().as(this));
-      }
-      toString() {
-        return diagnostics.describeIdentity(this) + "(" + this.toStringDetails() + ")";
-      }
-      toStringDetails() {
-        if (!(this.status !== null)) dart.assertFailed(null, I[2], 193, 12, "status != null");
-        switch (this.status) {
-          case C[0] || CT.C0:
-          {
-            return "▶";
-          }
-          case C[1] || CT.C1:
-          {
-            return "◀";
-          }
-          case C[2] || CT.C2:
-          {
-            return "⏭";
-          }
-          case C[3] || CT.C3:
-          {
-            return "⏮";
-          }
-        }
-      }
+      if (strict) dateFields.verify(inputString);
+      return dateFields.asDate();
     }
-    (Animation.new = function() {
-      Animation.__proto__.new.call(this);
-      ;
-    }).prototype = Animation.prototype;
-    dart.addTypeTests(Animation);
-    Animation.prototype[_is_Animation_default] = true;
-    dart.addTypeCaches(Animation);
-    Animation[dart.implements] = () => [change_notifier.ValueListenable$(T)];
-    dart.setMethodSignature(Animation, () => ({
-      __proto__: dart.getMethods(Animation.__proto__),
-      drive: dart.gFnType(U => [animation$.Animation$(U), [tween.Animatable$(U)]], U => [dart.nullable(core.Object)]),
-      toStringDetails: dart.fnType(core.String, [])
-    }));
-    dart.setGetterSignature(Animation, () => ({
-      __proto__: dart.getGetters(Animation.__proto__),
-      isDismissed: core.bool,
-      isCompleted: core.bool
-    }));
-    dart.setLibraryUri(Animation, I[3]);
-    dart.defineExtensionMethods(Animation, ['toString']);
-    return Animation;
-  });
-  animation$.Animation = animation$.Animation$();
-  dart.addTypeTests(animation$.Animation, _is_Animation_default);
-  animations._AlwaysCompleteAnimation = class _AlwaysCompleteAnimation extends animation$.Animation$(core.double) {
-    addListener(listener) {
-    }
-    removeListener(listener) {
-    }
-    addStatusListener(listener) {
-    }
-    removeStatusListener(listener) {
-    }
-    get status() {
-      return animation$.AnimationStatus.completed;
-    }
-    get value() {
-      return 1.0;
-    }
-    toString() {
-      return "kAlwaysCompleteAnimation";
-    }
-  };
-  (animations._AlwaysCompleteAnimation.new = function() {
-    animations._AlwaysCompleteAnimation.__proto__.new.call(this);
-    ;
-  }).prototype = animations._AlwaysCompleteAnimation.prototype;
-  dart.addTypeTests(animations._AlwaysCompleteAnimation);
-  dart.addTypeCaches(animations._AlwaysCompleteAnimation);
-  dart.setMethodSignature(animations._AlwaysCompleteAnimation, () => ({
-    __proto__: dart.getMethods(animations._AlwaysCompleteAnimation.__proto__),
-    addListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    removeListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    addStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])]),
-    removeStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])])
-  }));
-  dart.setGetterSignature(animations._AlwaysCompleteAnimation, () => ({
-    __proto__: dart.getGetters(animations._AlwaysCompleteAnimation.__proto__),
-    status: animation$.AnimationStatus,
-    value: core.double
-  }));
-  dart.setLibraryUri(animations._AlwaysCompleteAnimation, I[4]);
-  dart.defineExtensionMethods(animations._AlwaysCompleteAnimation, ['toString']);
-  animations._AlwaysDismissedAnimation = class _AlwaysDismissedAnimation extends animation$.Animation$(core.double) {
-    addListener(listener) {
-    }
-    removeListener(listener) {
-    }
-    addStatusListener(listener) {
-    }
-    removeStatusListener(listener) {
-    }
-    get status() {
-      return animation$.AnimationStatus.dismissed;
-    }
-    get value() {
-      return 0.0;
-    }
-    toString() {
-      return "kAlwaysDismissedAnimation";
-    }
-  };
-  (animations._AlwaysDismissedAnimation.new = function() {
-    animations._AlwaysDismissedAnimation.__proto__.new.call(this);
-    ;
-  }).prototype = animations._AlwaysDismissedAnimation.prototype;
-  dart.addTypeTests(animations._AlwaysDismissedAnimation);
-  dart.addTypeCaches(animations._AlwaysDismissedAnimation);
-  dart.setMethodSignature(animations._AlwaysDismissedAnimation, () => ({
-    __proto__: dart.getMethods(animations._AlwaysDismissedAnimation.__proto__),
-    addListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    removeListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    addStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])]),
-    removeStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])])
-  }));
-  dart.setGetterSignature(animations._AlwaysDismissedAnimation, () => ({
-    __proto__: dart.getGetters(animations._AlwaysDismissedAnimation.__proto__),
-    status: animation$.AnimationStatus,
-    value: core.double
-  }));
-  dart.setLibraryUri(animations._AlwaysDismissedAnimation, I[4]);
-  dart.defineExtensionMethods(animations._AlwaysDismissedAnimation, ['toString']);
-  var value$ = dart.privateName(animations, "AlwaysStoppedAnimation.value");
-  const _is_AlwaysStoppedAnimation_default = Symbol('_is_AlwaysStoppedAnimation_default');
-  animations.AlwaysStoppedAnimation$ = dart.generic(T => {
-    class AlwaysStoppedAnimation extends animation$.Animation$(T) {
-      get value() {
-        return this[value$];
-      }
-      set value(value) {
-        super.value = value;
-      }
-      addListener(listener) {
-      }
-      removeListener(listener) {
-      }
-      addStatusListener(listener) {
-      }
-      removeStatusListener(listener) {
-      }
-      get status() {
-        return animation$.AnimationStatus.forward;
-      }
-      toStringDetails() {
-        return super.toStringDetails() + " " + dart.str(this.value) + "; paused";
-      }
-    }
-    (AlwaysStoppedAnimation.new = function(value) {
-      this[value$] = value;
-      AlwaysStoppedAnimation.__proto__.new.call(this);
-      ;
-    }).prototype = AlwaysStoppedAnimation.prototype;
-    dart.addTypeTests(AlwaysStoppedAnimation);
-    AlwaysStoppedAnimation.prototype[_is_AlwaysStoppedAnimation_default] = true;
-    dart.addTypeCaches(AlwaysStoppedAnimation);
-    dart.setMethodSignature(AlwaysStoppedAnimation, () => ({
-      __proto__: dart.getMethods(AlwaysStoppedAnimation.__proto__),
-      addListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-      removeListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-      addStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])]),
-      removeStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])])
-    }));
-    dart.setGetterSignature(AlwaysStoppedAnimation, () => ({
-      __proto__: dart.getGetters(AlwaysStoppedAnimation.__proto__),
-      status: animation$.AnimationStatus
-    }));
-    dart.setLibraryUri(AlwaysStoppedAnimation, I[4]);
-    dart.setFieldSignature(AlwaysStoppedAnimation, () => ({
-      __proto__: dart.getFields(AlwaysStoppedAnimation.__proto__),
-      value: dart.finalFieldType(T)
-    }));
-    return AlwaysStoppedAnimation;
-  });
-  animations.AlwaysStoppedAnimation = animations.AlwaysStoppedAnimation$();
-  dart.addTypeTests(animations.AlwaysStoppedAnimation, _is_AlwaysStoppedAnimation_default);
-  const _is_AnimationWithParentMixin_default = Symbol('_is_AnimationWithParentMixin_default');
-  animations.AnimationWithParentMixin$ = dart.generic(T => {
-    class AnimationWithParentMixin extends core.Object {}
-    AnimationWithParentMixin[dart.mixinOn] = Object => class AnimationWithParentMixin extends Object {
-      addListener(listener) {
-        return this.parent.addListener(listener);
-      }
-      removeListener(listener) {
-        return this.parent.removeListener(listener);
-      }
-      addStatusListener(listener) {
-        return this.parent.addStatusListener(listener);
-      }
-      removeStatusListener(listener) {
-        return this.parent.removeStatusListener(listener);
-      }
-      get status() {
-        return this.parent.status;
-      }
-    };
-    (AnimationWithParentMixin[dart.mixinNew] = function() {
-    }).prototype = AnimationWithParentMixin.prototype;
-    dart.addTypeTests(AnimationWithParentMixin);
-    AnimationWithParentMixin.prototype[_is_AnimationWithParentMixin_default] = true;
-    dart.addTypeCaches(AnimationWithParentMixin);
-    AnimationWithParentMixin[dart.implements] = () => [core.Object];
-    dart.setMethodSignature(AnimationWithParentMixin, () => ({
-      __proto__: dart.getMethods(AnimationWithParentMixin.__proto__),
-      addListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-      removeListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-      addStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])]),
-      removeStatusListener: dart.fnType(dart.void, [dart.fnType(dart.void, [animation$.AnimationStatus])])
-    }));
-    dart.setGetterSignature(AnimationWithParentMixin, () => ({
-      __proto__: dart.getGetters(AnimationWithParentMixin.__proto__),
-      status: animation$.AnimationStatus
-    }));
-    dart.setLibraryUri(AnimationWithParentMixin, I[4]);
-    return AnimationWithParentMixin;
-  });
-  animations.AnimationWithParentMixin = animations.AnimationWithParentMixin$();
-  dart.addTypeTests(animations.AnimationWithParentMixin, _is_AnimationWithParentMixin_default);
-  var _status = dart.privateName(animations, "_status");
-  var _value = dart.privateName(animations, "_value");
-  var _parent = dart.privateName(animations, "_parent");
-  const Animation_AnimationLazyListenerMixin$36 = class Animation_AnimationLazyListenerMixin extends animation$.Animation$(core.double) {};
-  (Animation_AnimationLazyListenerMixin$36.new = function() {
-    listener_helpers.AnimationLazyListenerMixin[dart.mixinNew].call(this);
-    Animation_AnimationLazyListenerMixin$36.__proto__.new.call(this);
-  }).prototype = Animation_AnimationLazyListenerMixin$36.prototype;
-  dart.applyMixin(Animation_AnimationLazyListenerMixin$36, listener_helpers.AnimationLazyListenerMixin);
-  const Animation_AnimationLocalListenersMixin$36 = class Animation_AnimationLocalListenersMixin extends Animation_AnimationLazyListenerMixin$36 {};
-  (Animation_AnimationLocalListenersMixin$36.new = function() {
-    listener_helpers.AnimationLocalListenersMixin[dart.mixinNew].call(this);
-    Animation_AnimationLocalListenersMixin$36.__proto__.new.call(this);
-  }).prototype = Animation_AnimationLocalListenersMixin$36.prototype;
-  dart.applyMixin(Animation_AnimationLocalListenersMixin$36, listener_helpers.AnimationLocalListenersMixin);
-  const Animation_AnimationLocalStatusListenersMixin$36 = class Animation_AnimationLocalStatusListenersMixin extends Animation_AnimationLocalListenersMixin$36 {};
-  (Animation_AnimationLocalStatusListenersMixin$36.new = function() {
-    listener_helpers.AnimationLocalStatusListenersMixin[dart.mixinNew].call(this);
-    Animation_AnimationLocalStatusListenersMixin$36.__proto__.new.call(this);
-  }).prototype = Animation_AnimationLocalStatusListenersMixin$36.prototype;
-  dart.applyMixin(Animation_AnimationLocalStatusListenersMixin$36, listener_helpers.AnimationLocalStatusListenersMixin);
-  animations.ProxyAnimation = class ProxyAnimation extends Animation_AnimationLocalStatusListenersMixin$36 {
-    get parent() {
-      return this[_parent];
-    }
-    set parent(value) {
-      if (dart.equals(value, this[_parent])) return;
-      if (this[_parent] != null) {
-        this[_status] = dart.nullCheck(this[_parent]).status;
-        this[_value] = dart.nullCheck(this[_parent]).value;
-        if (this.isListening) this.didStopListening();
-      }
-      this[_parent] = value;
-      if (this[_parent] != null) {
-        if (this.isListening) this.didStartListening();
-        if (this[_value] !== dart.nullCheck(this[_parent]).value) this.notifyListeners();
-        if (this[_status] !== dart.nullCheck(this[_parent]).status) this.notifyStatusListeners(dart.nullCheck(this[_parent]).status);
-        this[_status] = null;
-        this[_value] = null;
-      }
-    }
-    didStartListening() {
-      if (this[_parent] != null) {
-        dart.nullCheck(this[_parent]).addListener(dart.bind(this, 'notifyListeners'));
-        dart.nullCheck(this[_parent]).addStatusListener(dart.bind(this, 'notifyStatusListeners'));
-      }
-    }
-    didStopListening() {
-      if (this[_parent] != null) {
-        dart.nullCheck(this[_parent]).removeListener(dart.bind(this, 'notifyListeners'));
-        dart.nullCheck(this[_parent]).removeStatusListener(dart.bind(this, 'notifyStatusListeners'));
-      }
-    }
-    get status() {
-      return this[_parent] != null ? dart.nullCheck(this[_parent]).status : dart.nullCheck(this[_status]);
-    }
-    get value() {
-      return this[_parent] != null ? dart.nullCheck(this[_parent]).value : dart.nullCheck(this[_value]);
-    }
-    toString() {
-      if (this.parent == null) return object.objectRuntimeType(this, "ProxyAnimation") + "(null; " + super.toStringDetails() + " " + this.value[$toStringAsFixed](3) + ")";
-      return dart.str(this.parent) + "➩" + object.objectRuntimeType(this, "ProxyAnimation");
-    }
-  };
-  (animations.ProxyAnimation.new = function(animation = null) {
-    this[_status] = null;
-    this[_value] = null;
-    this[_parent] = null;
-    animations.ProxyAnimation.__proto__.new.call(this);
-    this[_parent] = animation;
-    if (this[_parent] == null) {
-      this[_status] = animation$.AnimationStatus.dismissed;
-      this[_value] = 0.0;
-    }
-  }).prototype = animations.ProxyAnimation.prototype;
-  dart.addTypeTests(animations.ProxyAnimation);
-  dart.addTypeCaches(animations.ProxyAnimation);
-  dart.setMethodSignature(animations.ProxyAnimation, () => ({
-    __proto__: dart.getMethods(animations.ProxyAnimation.__proto__),
-    didStartListening: dart.fnType(dart.void, []),
-    didStopListening: dart.fnType(dart.void, [])
-  }));
-  dart.setGetterSignature(animations.ProxyAnimation, () => ({
-    __proto__: dart.getGetters(animations.ProxyAnimation.__proto__),
-    parent: dart.nullable(animation$.Animation$(core.double)),
-    status: animation$.AnimationStatus,
-    value: core.double
-  }));
-  dart.setSetterSignature(animations.ProxyAnimation, () => ({
-    __proto__: dart.getSetters(animations.ProxyAnimation.__proto__),
-    parent: dart.nullable(animation$.Animation$(core.double))
-  }));
-  dart.setLibraryUri(animations.ProxyAnimation, I[4]);
-  dart.setFieldSignature(animations.ProxyAnimation, () => ({
-    __proto__: dart.getFields(animations.ProxyAnimation.__proto__),
-    [_status]: dart.fieldType(dart.nullable(animation$.AnimationStatus)),
-    [_value]: dart.fieldType(dart.nullable(core.double)),
-    [_parent]: dart.fieldType(dart.nullable(animation$.Animation$(core.double)))
-  }));
-  dart.defineExtensionMethods(animations.ProxyAnimation, ['toString']);
-  var parent$ = dart.privateName(animations, "ReverseAnimation.parent");
-  var _statusChangeHandler = dart.privateName(animations, "_statusChangeHandler");
-  var _reverseStatus = dart.privateName(animations, "_reverseStatus");
-  const Animation_AnimationLazyListenerMixin$36$ = class Animation_AnimationLazyListenerMixin extends animation$.Animation$(core.double) {};
-  (Animation_AnimationLazyListenerMixin$36$.new = function() {
-    listener_helpers.AnimationLazyListenerMixin[dart.mixinNew].call(this);
-    Animation_AnimationLazyListenerMixin$36$.__proto__.new.call(this);
-  }).prototype = Animation_AnimationLazyListenerMixin$36$.prototype;
-  dart.applyMixin(Animation_AnimationLazyListenerMixin$36$, listener_helpers.AnimationLazyListenerMixin);
-  const Animation_AnimationLocalStatusListenersMixin$36$ = class Animation_AnimationLocalStatusListenersMixin extends Animation_AnimationLazyListenerMixin$36$ {};
-  (Animation_AnimationLocalStatusListenersMixin$36$.new = function() {
-    listener_helpers.AnimationLocalStatusListenersMixin[dart.mixinNew].call(this);
-    Animation_AnimationLocalStatusListenersMixin$36$.__proto__.new.call(this);
-  }).prototype = Animation_AnimationLocalStatusListenersMixin$36$.prototype;
-  dart.applyMixin(Animation_AnimationLocalStatusListenersMixin$36$, listener_helpers.AnimationLocalStatusListenersMixin);
-  animations.ReverseAnimation = class ReverseAnimation extends Animation_AnimationLocalStatusListenersMixin$36$ {
-    get parent() {
-      return this[parent$];
-    }
-    set parent(value) {
-      super.parent = value;
-    }
-    addListener(listener) {
-      this.didRegisterListener();
-      this.parent.addListener(listener);
-    }
-    removeListener(listener) {
-      this.parent.removeListener(listener);
-      this.didUnregisterListener();
-    }
-    didStartListening() {
-      this.parent.addStatusListener(dart.bind(this, _statusChangeHandler));
-    }
-    didStopListening() {
-      this.parent.removeStatusListener(dart.bind(this, _statusChangeHandler));
-    }
-    [_statusChangeHandler](status) {
-      this.notifyStatusListeners(this[_reverseStatus](status));
-    }
-    get status() {
-      return this[_reverseStatus](this.parent.status);
-    }
-    get value() {
-      return 1.0 - this.parent.value;
-    }
-    [_reverseStatus](status) {
-      if (!(status !== null)) dart.assertFailed(null, I[5], 302, 12, "status != null");
-      switch (status) {
-        case C[0] || CT.C0:
-        {
-          return animation$.AnimationStatus.reverse;
-        }
-        case C[1] || CT.C1:
-        {
-          return animation$.AnimationStatus.forward;
-        }
-        case C[2] || CT.C2:
-        {
-          return animation$.AnimationStatus.dismissed;
-        }
-        case C[3] || CT.C3:
-        {
-          return animation$.AnimationStatus.completed;
-        }
-      }
-    }
-    toString() {
-      return dart.str(this.parent) + "➪" + object.objectRuntimeType(this, "ReverseAnimation");
-    }
-  };
-  (animations.ReverseAnimation.new = function(parent) {
-    this[parent$] = parent;
-    if (!(parent !== null)) dart.assertFailed(null, I[5], 264, 14, "parent != null");
-    animations.ReverseAnimation.__proto__.new.call(this);
-    ;
-  }).prototype = animations.ReverseAnimation.prototype;
-  dart.addTypeTests(animations.ReverseAnimation);
-  dart.addTypeCaches(animations.ReverseAnimation);
-  dart.setMethodSignature(animations.ReverseAnimation, () => ({
-    __proto__: dart.getMethods(animations.ReverseAnimation.__proto__),
-    addListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    removeListener: dart.fnType(dart.void, [dart.fnType(dart.void, [])]),
-    didStartListening: dart.fnType(dart.void, []),
-    didStopListening: dart.fnType(dart.void, []),
-    [_statusChangeHandler]: dart.fnType(dart.void, [animation$.AnimationStatus]),
-    [_reverseStatus]: dart.fnType(animation$.AnimationStatus, [animation$.AnimationStatus])
-  }));
-  dart.setGetterSignature(animations.ReverseAnimation, () => ({
-    __proto__: dart.getGetters(animations.ReverseAnimation.__proto__),
-    status: animation$.AnimationStatus,
-    value: core.double
-  }));
-  dart.setLibraryUri(animations.ReverseAnimation, I[4]);
-  dart.setFieldSignature(animations.ReverseAnimation, () => ({
-    __proto__: dart.getFields(animations.ReverseAnimation.__proto__),
-    parent: dart.finalFieldType(animation$.Animation$(core.double))
-  }));
-  dart.defineExtensionMethods(animations.ReverseAnimation, ['toString']);
-  var parent$0 = dart.privateName(animations, "CurvedAnimation.parent");
-  var curve$ = dart.privateName(animations, "CurvedAnimation.curve");
-  var reverseCurve$ = dart.privateName(animations, "CurvedAnimation.reverseCurve");
-  var _curveDirection = dart.privateName(animations, "_curveDirection");
-  var _updateCurveDirection = dart.privateName(animations, "_updateCurveDirection");
-  var _useForwardCurve = dart.privateName(animations, "_useForwardCurve");
-  const Animation_AnimationWithParentMixin$36 = class Animation_AnimationWithParentMixin extends animation$.Animation$(core.double) {};
-  (Animation_AnimationWithParentMixin$36.new = function() {
-    Animation_AnimationWithParentMixin$36.__proto__.new.call(this);
-  }).prototype = Animation_AnimationWithParentMixin$36.prototype;
-  dart.applyMixin(Animation_AnimationWithParentMixin$36, animations.AnimationWithParentMixin$(core.double));
-  animations.CurvedAnimation = class CurvedAnimation extends Animation_AnimationWithParentMixin$36 {
-    get parent() {
-      return this[parent$0];
-    }
-    set parent(value) {
-      super.parent = value;
-    }
-    get curve() {
-      return this[curve$];
-    }
-    set curve(value) {
-      this[curve$] = value;
-    }
-    get reverseCurve() {
-      return this[reverseCurve$];
-    }
-    set reverseCurve(value) {
-      this[reverseCurve$] = value;
-    }
-    [_updateCurveDirection](status) {
-      switch (status) {
-        case C[3] || CT.C3:
-        case C[2] || CT.C2:
-        {
-          this[_curveDirection] = null;
-          break;
-        }
-        case C[0] || CT.C0:
-        {
-          this[_curveDirection] == null ? this[_curveDirection] = animation$.AnimationStatus.forward : null;
-          break;
-        }
-        case C[1] || CT.C1:
-        {
-          this[_curveDirection] == null ? this[_curveDirection] = animation$.AnimationStatus.reverse : null;
-          break;
-        }
-      }
-    }
-    get [_useForwardCurve]() {
+    get dateOnly() {
       let t2;
-      return this.reverseCurve == null || (t2 = this[_curveDirection], t2 == null ? this.parent.status : t2) !== animation$.AnimationStatus.reverse;
+      t2 = this[_dateOnly];
+      return t2 == null ? this[_dateOnly] = this[_checkDateOnly] : t2;
     }
-    get value() {
-      let activeCurve = this[_useForwardCurve] ? this.curve : this.reverseCurve;
-      let t = this.parent.value;
-      if (activeCurve == null) return t;
-      if (t === 0.0 || t === 1.0) {
-        if (!dart.fn(() => {
-          let transformedValue = activeCurve.transform(t);
-          let roundedTransformedValue = transformedValue[$round]()[$toDouble]();
-          if (roundedTransformedValue !== t) {
-            dart.throw(assertions.FlutterError.new("Invalid curve endpoint at " + dart.str(t) + ".\n" + "Curves must map 0.0 to near zero and 1.0 to near one but " + dart.str(dart.runtimeType(activeCurve)) + " mapped " + dart.str(t) + " to " + dart.str(transformedValue) + ", which " + "is near " + dart.str(roundedTransformedValue) + "."));
-          }
-          return true;
-        }, T$.VoidTobool())()) dart.assertFailed(null, I[5], 438, 14, "() {\r\n        final double transformedValue = activeCurve.transform(t);\r\n        final double roundedTransformedValue = transformedValue.round().toDouble();\r\n        if (roundedTransformedValue != t) {\r\n          throw FlutterError(\r\n            'Invalid curve endpoint at $t.\\n'\r\n            'Curves must map 0.0 to near zero and 1.0 to near one but '\r\n            '${activeCurve.runtimeType} mapped $t to $transformedValue, which '\r\n            'is near $roundedTransformedValue.',\r\n          );\r\n        }\r\n        return true;\r\n      }()");
-        return t;
+    get [_checkDateOnly]() {
+      return this[_formatFields][$every](dart.fn(each => each.forDate, T._DateFormatFieldTobool()));
+    }
+    parseUTC(inputString) {
+      return this.parse(inputString, true);
+    }
+    parseUtc(inputString) {
+      return this.parse(inputString, true);
+    }
+    get locale() {
+      return this[_locale];
+    }
+    static allLocalesWithSymbols() {
+      return T.ListOfString().from(core.Iterable.as(dart.dload(date_format_internal.dateTimeSymbols, 'keys')));
+    }
+    add_d() {
+      return this.addPattern("d");
+    }
+    add_E() {
+      return this.addPattern("E");
+    }
+    add_EEEE() {
+      return this.addPattern("EEEE");
+    }
+    add_LLL() {
+      return this.addPattern("LLL");
+    }
+    add_LLLL() {
+      return this.addPattern("LLLL");
+    }
+    add_M() {
+      return this.addPattern("M");
+    }
+    add_Md() {
+      return this.addPattern("Md");
+    }
+    add_MEd() {
+      return this.addPattern("MEd");
+    }
+    add_MMM() {
+      return this.addPattern("MMM");
+    }
+    add_MMMd() {
+      return this.addPattern("MMMd");
+    }
+    add_MMMEd() {
+      return this.addPattern("MMMEd");
+    }
+    add_MMMM() {
+      return this.addPattern("MMMM");
+    }
+    add_MMMMd() {
+      return this.addPattern("MMMMd");
+    }
+    add_MMMMEEEEd() {
+      return this.addPattern("MMMMEEEEd");
+    }
+    add_QQQ() {
+      return this.addPattern("QQQ");
+    }
+    add_QQQQ() {
+      return this.addPattern("QQQQ");
+    }
+    add_y() {
+      return this.addPattern("y");
+    }
+    add_yM() {
+      return this.addPattern("yM");
+    }
+    add_yMd() {
+      return this.addPattern("yMd");
+    }
+    add_yMEd() {
+      return this.addPattern("yMEd");
+    }
+    add_yMMM() {
+      return this.addPattern("yMMM");
+    }
+    add_yMMMd() {
+      return this.addPattern("yMMMd");
+    }
+    add_yMMMEd() {
+      return this.addPattern("yMMMEd");
+    }
+    add_yMMMM() {
+      return this.addPattern("yMMMM");
+    }
+    add_yMMMMd() {
+      return this.addPattern("yMMMMd");
+    }
+    add_yMMMMEEEEd() {
+      return this.addPattern("yMMMMEEEEd");
+    }
+    add_yQQQ() {
+      return this.addPattern("yQQQ");
+    }
+    add_yQQQQ() {
+      return this.addPattern("yQQQQ");
+    }
+    add_H() {
+      return this.addPattern("H");
+    }
+    add_Hm() {
+      return this.addPattern("Hm");
+    }
+    add_Hms() {
+      return this.addPattern("Hms");
+    }
+    add_j() {
+      return this.addPattern("j");
+    }
+    add_jm() {
+      return this.addPattern("jm");
+    }
+    add_jms() {
+      return this.addPattern("jms");
+    }
+    add_jmv() {
+      return this.addPattern("jmv");
+    }
+    add_jmz() {
+      return this.addPattern("jmz");
+    }
+    add_jv() {
+      return this.addPattern("jv");
+    }
+    add_jz() {
+      return this.addPattern("jz");
+    }
+    add_m() {
+      return this.addPattern("m");
+    }
+    add_ms() {
+      return this.addPattern("ms");
+    }
+    add_s() {
+      return this.addPattern("s");
+    }
+    get [_formatFields]() {
+      if (this[_formatFieldsPrivate] == null) {
+        if (this[_pattern] == null) this[_useDefaultPattern]();
+        this[_formatFieldsPrivate] = this.parsePattern(dart.nullCheck(this[_pattern]));
       }
-      return activeCurve.transform(t);
+      return dart.nullCheck(this[_formatFieldsPrivate]);
     }
-    toString() {
-      if (this.reverseCurve == null) return dart.str(this.parent) + "➩" + dart.str(this.curve);
-      if (this[_useForwardCurve]) return dart.str(this.parent) + "➩" + dart.str(this.curve) + "ₒₙ/" + dart.str(this.reverseCurve);
-      return dart.str(this.parent) + "➩" + dart.str(this.curve) + "/" + dart.str(this.reverseCurve) + "ₒₙ";
+    [_useDefaultPattern]() {
+      this.add_yMMMMd();
+      this.add_jms();
     }
-  };
-  (animations.CurvedAnimation.new = function(opts) {
-    let parent = opts && 'parent' in opts ? opts.parent : null;
-    let curve = opts && 'curve' in opts ? opts.curve : null;
-    let reverseCurve = opts && 'reverseCurve' in opts ? opts.reverseCurve : null;
-    this[_curveDirection] = null;
-    this[parent$0] = parent;
-    this[curve$] = curve;
-    this[reverseCurve$] = reverseCurve;
-    if (!(parent !== null)) dart.assertFailed(null, I[5], 376, 15, "parent != null");
-    if (!(curve !== null)) dart.assertFailed(null, I[5], 377, 15, "curve != null");
-    animations.CurvedAnimation.__proto__.new.call(this);
-    this[_updateCurveDirection](this.parent.status);
-    this.parent.addStatusListener(dart.bind(this, _updateCurveDirection));
-  }).prototype = animations.CurvedAnimation.prototype;
-  dart.addTypeTests(animations.CurvedAnimation);
-  dart.addTypeCaches(animations.CurvedAnimation);
-  dart.setMethodSignature(animations.CurvedAnimation, () => ({
-    __proto__: dart.getMethods(animations.CurvedAnimation.__proto__),
-    [_updateCurveDirection]: dart.fnType(dart.void, [animation$.AnimationStatus])
-  }));
-  dart.setGetterSignature(animations.CurvedAnimation, () => ({
-    __proto__: dart.getGetters(animations.CurvedAnimation.__proto__),
-    [_useForwardCurve]: core.bool,
-    value: core.double
-  }));
-  dart.setLibraryUri(animations.CurvedAnimation, I[4]);
-  dart.setFieldSignature(animations.CurvedAnimation, () => ({
-    __proto__: dart.getFields(animations.CurvedAnimation.__proto__),
-    parent: dart.finalFieldType(animation$.Animation$(core.double)),
-    curve: dart.fieldType(curves.Curve),
-    reverseCurve: dart.fieldType(dart.nullable(curves.Curve)),
-    [_curveDirection]: dart.fieldType(dart.nullable(animation$.AnimationStatus))
-  }));
-  dart.defineExtensionMethods(animations.CurvedAnimation, ['toString']);
-  var _name$0 = dart.privateName(animations, "_name");
-  animations._TrainHoppingMode = class _TrainHoppingMode extends core.Object {
-    toString() {
-      return this[_name$0];
+    [_appendPattern](inputPattern, separator = " ") {
+      this[_pattern] = this[_pattern] == null ? inputPattern : dart.str(this[_pattern]) + separator + inputPattern;
     }
-  };
-  (animations._TrainHoppingMode.new = function(index, _name) {
-    this.index = index;
-    this[_name$0] = _name;
-    ;
-  }).prototype = animations._TrainHoppingMode.prototype;
-  dart.addTypeTests(animations._TrainHoppingMode);
-  dart.addTypeCaches(animations._TrainHoppingMode);
-  dart.setLibraryUri(animations._TrainHoppingMode, I[4]);
-  dart.setFieldSignature(animations._TrainHoppingMode, () => ({
-    __proto__: dart.getFields(animations._TrainHoppingMode.__proto__),
-    index: dart.finalFieldType(core.int),
-    [_name$0]: dart.finalFieldType(core.String)
-  }));
-  dart.defineExtensionMethods(animations._TrainHoppingMode, ['toString']);
-  animations._TrainHoppingMode.minimize = C[4] || CT.C4;
-  animations._TrainHoppingMode.maximize = C[5] || CT.C5;
-  animations._TrainHoppingMode.values = C[6] || CT.C6;
-  var onSwitchedTrain$ = dart.privateName(animations, "TrainHoppingAnimation.onSwitchedTrain");
-  var _mode = dart.privateName(animations, "_mode");
-  var _lastStatus = dart.privateName(animations, "_lastStatus");
-  var _lastValue = dart.privateName(animations, "_lastValue");
-  var _currentTrain$ = dart.privateName(animations, "_currentTrain");
-  var _nextTrain$ = dart.privateName(animations, "_nextTrain");
-  var _valueChangeHandler = dart.privateName(animations, "_valueChangeHandler");
-  const Animation_AnimationEagerListenerMixin$36 = class Animation_AnimationEagerListenerMixin extends animation$.Animation$(core.double) {};
-  (Animation_AnimationEagerListenerMixin$36.new = function() {
-    Animation_AnimationEagerListenerMixin$36.__proto__.new.call(this);
-  }).prototype = Animation_AnimationEagerListenerMixin$36.prototype;
-  dart.applyMixin(Animation_AnimationEagerListenerMixin$36, listener_helpers.AnimationEagerListenerMixin);
-  const Animation_AnimationLocalListenersMixin$36$ = class Animation_AnimationLocalListenersMixin extends Animation_AnimationEagerListenerMixin$36 {};
-  (Animation_AnimationLocalListenersMixin$36$.new = function() {
-    listener_helpers.AnimationLocalListenersMixin[dart.mixinNew].call(this);
-    Animation_AnimationLocalListenersMixin$36$.__proto__.new.call(this);
-  }).prototype = Animation_AnimationLocalListenersMixin$36$.prototype;
-  dart.applyMixin(Animation_AnimationLocalListenersMixin$36$, listener_helpers.AnimationLocalListenersMixin);
-  const Animation_AnimationLocalStatusListenersMixin$36$0 = class Animation_AnimationLocalStatusListenersMixin extends Animation_AnimationLocalListenersMixin$36$ {};
-  (Animation_AnimationLocalStatusListenersMixin$36$0.new = function() {
-    listener_helpers.AnimationLocalStatusListenersMixin[dart.mixinNew].call(this);
-    Animation_AnimationLocalStatusListenersMixin$36$0.__proto__.new.call(this);
-  }).prototype = Animation_AnimationLocalStatusListenersMixin$36$0.prototype;
-  dart.applyMixin(Animation_AnimationLocalStatusListenersMixin$36$0, listener_helpers.AnimationLocalStatusListenersMixin);
-  animations.TrainHoppingAnimation = class TrainHoppingAnimation extends Animation_AnimationLocalStatusListenersMixin$36$0 {
-    get onSwitchedTrain() {
-      return this[onSwitchedTrain$];
-    }
-    set onSwitchedTrain(value) {
-      this[onSwitchedTrain$] = value;
-    }
-    get currentTrain() {
-      return this[_currentTrain$];
-    }
-    [_statusChangeHandler](status) {
-      if (!(this[_currentTrain$] != null)) dart.assertFailed(null, I[5], 534, 12, "_currentTrain != null");
-      if (status !== this[_lastStatus]) {
-        this.notifyListeners();
-        this[_lastStatus] = status;
-      }
-      if (!(this[_lastStatus] != null)) dart.assertFailed(null, I[5], 539, 12, "_lastStatus != null");
-    }
-    get status() {
-      return dart.nullCheck(this[_currentTrain$]).status;
-    }
-    [_valueChangeHandler]() {
-      let t2;
-      if (!(this[_currentTrain$] != null)) dart.assertFailed(null, I[5], 547, 12, "_currentTrain != null");
-      let hop = false;
-      if (this[_nextTrain$] != null) {
-        if (!(this[_mode] != null)) dart.assertFailed(null, I[5], 550, 14, "_mode != null");
-        switch (dart.nullCheck(this[_mode])) {
-          case C[4] || CT.C4:
-          {
-            hop = dart.nullCheck(this[_nextTrain$]).value <= dart.nullCheck(this[_currentTrain$]).value;
-            break;
-          }
-          case C[5] || CT.C5:
-          {
-            hop = dart.nullCheck(this[_nextTrain$]).value >= dart.nullCheck(this[_currentTrain$]).value;
-            break;
-          }
-        }
-        if (hop) {
-          t2 = dart.nullCheck(this[_currentTrain$]);
-          (() => {
-            t2.removeStatusListener(dart.bind(this, _statusChangeHandler));
-            t2.removeListener(dart.bind(this, _valueChangeHandler));
-            return t2;
-          })();
-          this[_currentTrain$] = this[_nextTrain$];
-          this[_nextTrain$] = null;
-          dart.nullCheck(this[_currentTrain$]).addStatusListener(dart.bind(this, _statusChangeHandler));
-          this[_statusChangeHandler](dart.nullCheck(this[_currentTrain$]).status);
-        }
-      }
-      let newValue = this.value;
-      if (newValue !== this[_lastValue]) {
-        this.notifyListeners();
-        this[_lastValue] = newValue;
-      }
-      if (!(this[_lastValue] != null)) dart.assertFailed(null, I[5], 574, 12, "_lastValue != null");
-      if (hop && this.onSwitchedTrain != null) dart.nullCheck(this.onSwitchedTrain)();
-    }
-    get value() {
-      return dart.nullCheck(this[_currentTrain$]).value;
-    }
-    dispose() {
-      let t2;
-      if (!(this[_currentTrain$] != null)) dart.assertFailed(null, I[5], 586, 12, "_currentTrain != null");
-      dart.nullCheck(this[_currentTrain$]).removeStatusListener(dart.bind(this, _statusChangeHandler));
-      dart.nullCheck(this[_currentTrain$]).removeListener(dart.bind(this, _valueChangeHandler));
-      this[_currentTrain$] = null;
-      t2 = this[_nextTrain$];
-      t2 == null ? null : t2.removeListener(dart.bind(this, _valueChangeHandler));
-      this[_nextTrain$] = null;
-      super.dispose();
-    }
-    toString() {
-      if (this[_nextTrain$] != null) return dart.str(this.currentTrain) + "➩" + object.objectRuntimeType(this, "TrainHoppingAnimation") + "(next: " + dart.str(this[_nextTrain$]) + ")";
-      return dart.str(this.currentTrain) + "➩" + object.objectRuntimeType(this, "TrainHoppingAnimation") + "(no next)";
-    }
-  };
-  (animations.TrainHoppingAnimation.new = function(_currentTrain, _nextTrain, opts) {
-    let t2;
-    let onSwitchedTrain = opts && 'onSwitchedTrain' in opts ? opts.onSwitchedTrain : null;
-    this[_mode] = null;
-    this[_lastStatus] = null;
-    this[_lastValue] = null;
-    this[_currentTrain$] = _currentTrain;
-    this[_nextTrain$] = _nextTrain;
-    this[onSwitchedTrain$] = onSwitchedTrain;
-    if (!(_currentTrain !== null)) dart.assertFailed(null, I[5], 498, 15, "_currentTrain != null");
-    animations.TrainHoppingAnimation.__proto__.new.call(this);
-    if (this[_nextTrain$] != null) {
-      if (dart.nullCheck(this[_currentTrain$]).value === dart.nullCheck(this[_nextTrain$]).value) {
-        this[_currentTrain$] = this[_nextTrain$];
-        this[_nextTrain$] = null;
-      } else if (dart.nullCheck(this[_currentTrain$]).value > dart.nullCheck(this[_nextTrain$]).value) {
-        this[_mode] = animations._TrainHoppingMode.maximize;
+    addPattern(inputPattern, separator = " ") {
+      this[_formatFieldsPrivate] = null;
+      if (inputPattern == null) return this;
+      if (!this[_availableSkeletons][$containsKey](inputPattern)) {
+        this[_appendPattern](inputPattern, separator);
       } else {
-        if (!(dart.nullCheck(this[_currentTrain$]).value < dart.nullCheck(this[_nextTrain$]).value)) dart.assertFailed(null, I[5], 506, 16, "_currentTrain!.value < _nextTrain!.value");
-        this[_mode] = animations._TrainHoppingMode.minimize;
+        this[_appendPattern](core.String.as(this[_availableSkeletons][$_get](inputPattern)), separator);
       }
+      return this;
     }
-    dart.nullCheck(this[_currentTrain$]).addStatusListener(dart.bind(this, _statusChangeHandler));
-    dart.nullCheck(this[_currentTrain$]).addListener(dart.bind(this, _valueChangeHandler));
-    t2 = this[_nextTrain$];
-    t2 == null ? null : t2.addListener(dart.bind(this, _valueChangeHandler));
-    if (!(this[_mode] != null || this[_nextTrain$] == null)) dart.assertFailed(null, I[5], 513, 12, "_mode != null || _nextTrain == null");
-  }).prototype = animations.TrainHoppingAnimation.prototype;
-  dart.addTypeTests(animations.TrainHoppingAnimation);
-  dart.addTypeCaches(animations.TrainHoppingAnimation);
-  dart.setMethodSignature(animations.TrainHoppingAnimation, () => ({
-    __proto__: dart.getMethods(animations.TrainHoppingAnimation.__proto__),
-    [_statusChangeHandler]: dart.fnType(dart.void, [animation$.AnimationStatus]),
-    [_valueChangeHandler]: dart.fnType(dart.void, [])
-  }));
-  dart.setGetterSignature(animations.TrainHoppingAnimation, () => ({
-    __proto__: dart.getGetters(animations.TrainHoppingAnimation.__proto__),
-    currentTrain: dart.nullable(animation$.Animation$(core.double)),
-    status: animation$.AnimationStatus,
-    value: core.double
-  }));
-  dart.setLibraryUri(animations.TrainHoppingAnimation, I[4]);
-  dart.setFieldSignature(animations.TrainHoppingAnimation, () => ({
-    __proto__: dart.getFields(animations.TrainHoppingAnimation.__proto__),
-    [_currentTrain$]: dart.fieldType(dart.nullable(animation$.Animation$(core.double))),
-    [_nextTrain$]: dart.fieldType(dart.nullable(animation$.Animation$(core.double))),
-    [_mode]: dart.fieldType(dart.nullable(animations._TrainHoppingMode)),
-    onSwitchedTrain: dart.fieldType(dart.nullable(dart.fnType(dart.void, []))),
-    [_lastStatus]: dart.fieldType(dart.nullable(animation$.AnimationStatus)),
-    [_lastValue]: dart.fieldType(dart.nullable(core.double))
-  }));
-  dart.defineExtensionMethods(animations.TrainHoppingAnimation, ['toString']);
-  var first$ = dart.privateName(animations, "CompoundAnimation.first");
-  var next$ = dart.privateName(animations, "CompoundAnimation.next");
-  var _maybeNotifyListeners = dart.privateName(animations, "_maybeNotifyListeners");
-  var _maybeNotifyStatusListeners = dart.privateName(animations, "_maybeNotifyStatusListeners");
-  const _is_CompoundAnimation_default = Symbol('_is_CompoundAnimation_default');
-  animations.CompoundAnimation$ = dart.generic(T => {
-    const Animation_AnimationLazyListenerMixin$36 = class Animation_AnimationLazyListenerMixin extends animation$.Animation$(T) {};
-    (Animation_AnimationLazyListenerMixin$36.new = function() {
-      listener_helpers.AnimationLazyListenerMixin[dart.mixinNew].call(this);
-      Animation_AnimationLazyListenerMixin$36.__proto__.new.call(this);
-    }).prototype = Animation_AnimationLazyListenerMixin$36.prototype;
-    dart.applyMixin(Animation_AnimationLazyListenerMixin$36, listener_helpers.AnimationLazyListenerMixin);
-    const Animation_AnimationLocalListenersMixin$36 = class Animation_AnimationLocalListenersMixin extends Animation_AnimationLazyListenerMixin$36 {};
-    (Animation_AnimationLocalListenersMixin$36.new = function() {
-      listener_helpers.AnimationLocalListenersMixin[dart.mixinNew].call(this);
-      Animation_AnimationLocalListenersMixin$36.__proto__.new.call(this);
-    }).prototype = Animation_AnimationLocalListenersMixin$36.prototype;
-    dart.applyMixin(Animation_AnimationLocalListenersMixin$36, listener_helpers.AnimationLocalListenersMixin);
-    const Animation_AnimationLocalStatusListenersMixin$36 = class Animation_AnimationLocalStatusListenersMixin extends Animation_AnimationLocalListenersMixin$36 {};
-    (Animation_AnimationLocalStatusListenersMixin$36.new = function() {
-      listener_helpers.AnimationLocalStatusListenersMixin[dart.mixinNew].call(this);
-      Animation_AnimationLocalStatusListenersMixin$36.__proto__.new.call(this);
-    }).prototype = Animation_AnimationLocalStatusListenersMixin$36.prototype;
-    dart.applyMixin(Animation_AnimationLocalStatusListenersMixin$36, listener_helpers.AnimationLocalStatusListenersMixin);
-    class CompoundAnimation extends Animation_AnimationLocalStatusListenersMixin$36 {
-      get first() {
-        return this[first$];
+    get pattern() {
+      return this[_pattern];
+    }
+    get [_availableSkeletons]() {
+      return core.Map.as(dart.dsend(date_format_internal.dateTimePatterns, '_get', [this.locale]));
+    }
+    get dateSymbols() {
+      if (this[_locale] !== date_format_internal.lastDateSymbolLocale) {
+        date_format_internal.lastDateSymbolLocale = this[_locale];
+        date_format_internal.cachedDateSymbols = T.DateSymbolsN().as(dart.dsend(date_format_internal.dateTimeSymbols, '_get', [this[_locale]]));
       }
-      set first(value) {
-        super.first = value;
+      return dart.nullCheck(date_format_internal.cachedDateSymbols);
+    }
+    static shouldUseNativeDigitsByDefaultFor(locale) {
+      let t2;
+      t2 = date_format.DateFormat._useNativeDigitsByDefault[$_get](locale);
+      return t2 == null ? true : t2;
+    }
+    static useNativeDigitsByDefaultFor(locale, value) {
+      date_format.DateFormat._useNativeDigitsByDefault[$_set](locale, value);
+    }
+    get useNativeDigits() {
+      return this[_useNativeDigits] == null ? this[_useNativeDigits] = date_format.DateFormat.shouldUseNativeDigitsByDefaultFor(this.locale) : dart.nullCheck(this[_useNativeDigits]);
+    }
+    set useNativeDigits(native) {
+      this[_useNativeDigits] = native;
+      this[_digitMatcher] = null;
+      this[_localeZeroCodeUnit] = null;
+      this[_localeZero] = null;
+    }
+    get digitMatcher() {
+      if (this[_digitMatcher] != null) return dart.nullCheck(this[_digitMatcher]);
+      this[_digitMatcher] = date_format.DateFormat._digitMatchers[$putIfAbsent](this.localeZero, dart.bind(this, _initDigitMatcher));
+      return dart.nullCheck(this[_digitMatcher]);
+    }
+    get localeZeroCodeUnit() {
+      return this[_localeZeroCodeUnit] == null ? this[_localeZeroCodeUnit] = this.localeZero[$codeUnitAt](0) : dart.nullCheck(this[_localeZeroCodeUnit]);
+    }
+    get localeZero() {
+      let t2;
+      return this[_localeZero] == null ? this[_localeZero] = this.useNativeDigits ? (t2 = this.dateSymbols.ZERODIGIT, t2 == null ? "0" : t2) : "0" : dart.nullCheck(this[_localeZero]);
+    }
+    get usesNativeDigits() {
+      return this.useNativeDigits && this[_localeZeroCodeUnit] !== constants.asciiZeroCodeUnit;
+    }
+    get usesAsciiDigits() {
+      return !this.usesNativeDigits;
+    }
+    [_localizeDigits](numberString) {
+      if (this.usesAsciiDigits) return numberString;
+      let newDigits = T.ListOfint().filled(numberString.length, 0);
+      let oldDigits = numberString[$codeUnits];
+      for (let i = 0; i < numberString.length; i = i + 1) {
+        newDigits[$_set](i, oldDigits[$_get](i) + this.localeZeroCodeUnit - constants.asciiZeroCodeUnit);
       }
-      get next() {
-        return this[next$];
-      }
-      set next(value) {
-        super.next = value;
-      }
-      didStartListening() {
-        this.first.addListener(dart.bind(this, _maybeNotifyListeners));
-        this.first.addStatusListener(dart.bind(this, _maybeNotifyStatusListeners));
-        this.next.addListener(dart.bind(this, _maybeNotifyListeners));
-        this.next.addStatusListener(dart.bind(this, _maybeNotifyStatusListeners));
-      }
-      didStopListening() {
-        this.first.removeListener(dart.bind(this, _maybeNotifyListeners));
-        this.first.removeStatusListener(dart.bind(this, _maybeNotifyStatusListeners));
-        this.next.removeListener(dart.bind(this, _maybeNotifyListeners));
-        this.next.removeStatusListener(dart.bind(this, _maybeNotifyStatusListeners));
-      }
-      get status() {
-        if (this.next.status === animation$.AnimationStatus.forward || this.next.status === animation$.AnimationStatus.reverse) return this.next.status;
-        return this.first.status;
-      }
-      toString() {
-        return object.objectRuntimeType(this, "CompoundAnimation") + "(" + dart.str(this.first) + ", " + dart.str(this.next) + ")";
-      }
-      [_maybeNotifyStatusListeners](_) {
-        if (this.status !== this[_lastStatus]) {
-          this[_lastStatus] = this.status;
-          this.notifyStatusListeners(this.status);
+      return core.String.fromCharCodes(newDigits);
+    }
+    [_initDigitMatcher]() {
+      if (this.usesAsciiDigits) return regexp.asciiDigitMatcher;
+      let localeDigits = T.IterableOfint().generate(10, dart.fn(i => i, T.intToint()))[$map](core.int, dart.fn(i => this.localeZeroCodeUnit + i, T.intToint()))[$toList]();
+      let localeDigitsString = core.String.fromCharCodes(localeDigits);
+      return core.RegExp.new("^[" + localeDigitsString + "]+");
+    }
+    static localeExists(localeName) {
+      if (localeName == null) return false;
+      return core.bool.as(dart.dsend(date_format_internal.dateTimeSymbols, 'containsKey', [localeName]));
+    }
+    static get _fieldConstructors() {
+      return T.JSArrayOfStringAndDateFormatTo_DateFormatField().of([dart.fn((pattern, parent) => new date_format._DateFormatQuotedField.new(pattern, parent), T.StringAndDateFormatTo_DateFormatQuotedField()), dart.fn((pattern, parent) => new date_format._DateFormatPatternField.new(pattern, parent), T.StringAndDateFormatTo_DateFormatPatternField()), dart.fn((pattern, parent) => new date_format._DateFormatLiteralField.new(pattern, parent), T.StringAndDateFormatTo_DateFormatLiteralField())]);
+    }
+    parsePattern(pattern) {
+      return this[_parsePatternHelper](pattern)[$reversed][$toList]();
+    }
+    [_parsePatternHelper](pattern) {
+      if (pattern[$isEmpty]) return T.JSArrayOf_DateFormatField().of([]);
+      let matched = this[_match](pattern);
+      if (matched == null) return T.JSArrayOf_DateFormatField().of([]);
+      let parsed = this[_parsePatternHelper](pattern[$substring](matched.fullPattern().length));
+      parsed[$add](matched);
+      return parsed;
+    }
+    [_match](pattern) {
+      for (let i = 0; i < date_format.DateFormat._matchers[$length]; i = i + 1) {
+        let regex = date_format.DateFormat._matchers[$_get](i);
+        let match = regex.firstMatch(pattern);
+        if (match != null) {
+          return date_format.DateFormat._fieldConstructors[$_get](i)(dart.nullCheck(match.group(0)), this);
         }
       }
-      [_maybeNotifyListeners]() {
-        if (!dart.equals(this.value, this[_lastValue])) {
-          this[_lastValue] = this.value;
-          this.notifyListeners();
-        }
-      }
-    }
-    (CompoundAnimation.new = function(opts) {
-      let first = opts && 'first' in opts ? opts.first : null;
-      let next = opts && 'next' in opts ? opts.next : null;
-      this[_lastStatus] = null;
-      this[_lastValue] = null;
-      this[first$] = first;
-      this[next$] = next;
-      if (!(first !== null)) dart.assertFailed(null, I[5], 620, 15, "first != null");
-      if (!(next !== null)) dart.assertFailed(null, I[5], 621, 15, "next != null");
-      CompoundAnimation.__proto__.new.call(this);
-      ;
-    }).prototype = CompoundAnimation.prototype;
-    dart.addTypeTests(CompoundAnimation);
-    CompoundAnimation.prototype[_is_CompoundAnimation_default] = true;
-    dart.addTypeCaches(CompoundAnimation);
-    dart.setMethodSignature(CompoundAnimation, () => ({
-      __proto__: dart.getMethods(CompoundAnimation.__proto__),
-      didStartListening: dart.fnType(dart.void, []),
-      didStopListening: dart.fnType(dart.void, []),
-      [_maybeNotifyStatusListeners]: dart.fnType(dart.void, [animation$.AnimationStatus]),
-      [_maybeNotifyListeners]: dart.fnType(dart.void, [])
-    }));
-    dart.setGetterSignature(CompoundAnimation, () => ({
-      __proto__: dart.getGetters(CompoundAnimation.__proto__),
-      status: animation$.AnimationStatus
-    }));
-    dart.setLibraryUri(CompoundAnimation, I[4]);
-    dart.setFieldSignature(CompoundAnimation, () => ({
-      __proto__: dart.getFields(CompoundAnimation.__proto__),
-      first: dart.finalFieldType(animation$.Animation$(T)),
-      next: dart.finalFieldType(animation$.Animation$(T)),
-      [_lastStatus]: dart.fieldType(dart.nullable(animation$.AnimationStatus)),
-      [_lastValue]: dart.fieldType(dart.nullable(T))
-    }));
-    dart.defineExtensionMethods(CompoundAnimation, ['toString']);
-    return CompoundAnimation;
-  });
-  animations.CompoundAnimation = animations.CompoundAnimation$();
-  dart.addTypeTests(animations.CompoundAnimation, _is_CompoundAnimation_default);
-  animations.AnimationMean = class AnimationMean extends animations.CompoundAnimation$(core.double) {
-    get value() {
-      return (this.first.value + this.next.value) / 2.0;
+      return null;
     }
   };
-  (animations.AnimationMean.new = function(opts) {
-    let left = opts && 'left' in opts ? opts.left : null;
-    let right = opts && 'right' in opts ? opts.right : null;
-    animations.AnimationMean.__proto__.new.call(this, {first: left, next: right});
-    ;
-  }).prototype = animations.AnimationMean.prototype;
-  dart.addTypeTests(animations.AnimationMean);
-  dart.addTypeCaches(animations.AnimationMean);
-  dart.setGetterSignature(animations.AnimationMean, () => ({
-    __proto__: dart.getGetters(animations.AnimationMean.__proto__),
-    value: core.double
+  (date_format.DateFormat.new = function(newPattern = null, locale = null) {
+    this[dateTimeConstructor] = dart.fn((year, month, day, hour24, minute, second, fractionalSecond, utc) => {
+      if (utc) {
+        return new core.DateTime.utc(year, month, day, hour24, minute, second, fractionalSecond);
+      } else {
+        return new core.DateTime.new(year, month, day, hour24, minute, second, fractionalSecond);
+      }
+    }, T.intAndintAndint__ToDateTime());
+    this[_dateOnly] = null;
+    this[_pattern] = null;
+    this[_formatFieldsPrivate] = null;
+    this[_useNativeDigits] = null;
+    this[_digitMatcher] = null;
+    this[_localeZeroCodeUnit] = null;
+    this[_localeZero] = null;
+    this[_locale] = dart.nullCheck(intl_helpers.verifiedLocale(locale, C[0] || CT.C0, null));
+    this.addPattern(newPattern);
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.d = function(locale = null) {
+    date_format.DateFormat.new.call(this, "d", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.E = function(locale = null) {
+    date_format.DateFormat.new.call(this, "E", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.EEEE = function(locale = null) {
+    date_format.DateFormat.new.call(this, "EEEE", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.LLL = function(locale = null) {
+    date_format.DateFormat.new.call(this, "LLL", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.LLLL = function(locale = null) {
+    date_format.DateFormat.new.call(this, "LLLL", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.M = function(locale = null) {
+    date_format.DateFormat.new.call(this, "M", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.Md = function(locale = null) {
+    date_format.DateFormat.new.call(this, "Md", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.MEd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "MEd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.MMM = function(locale = null) {
+    date_format.DateFormat.new.call(this, "MMM", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.MMMd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "MMMd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.MMMEd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "MMMEd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.MMMM = function(locale = null) {
+    date_format.DateFormat.new.call(this, "MMMM", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.MMMMd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "MMMMd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.MMMMEEEEd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "MMMMEEEEd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.QQQ = function(locale = null) {
+    date_format.DateFormat.new.call(this, "QQQ", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.QQQQ = function(locale = null) {
+    date_format.DateFormat.new.call(this, "QQQQ", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.y = function(locale = null) {
+    date_format.DateFormat.new.call(this, "y", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yM = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yM", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMEd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMEd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMMM = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMMM", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMMMd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMMMd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMMMEd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMMMEd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMMMM = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMMMM", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMMMMd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMMMMd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yMMMMEEEEd = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yMMMMEEEEd", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yQQQ = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yQQQ", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.yQQQQ = function(locale = null) {
+    date_format.DateFormat.new.call(this, "yQQQQ", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.H = function(locale = null) {
+    date_format.DateFormat.new.call(this, "H", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.Hm = function(locale = null) {
+    date_format.DateFormat.new.call(this, "Hm", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.Hms = function(locale = null) {
+    date_format.DateFormat.new.call(this, "Hms", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.j = function(locale = null) {
+    date_format.DateFormat.new.call(this, "j", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.jm = function(locale = null) {
+    date_format.DateFormat.new.call(this, "jm", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.jms = function(locale = null) {
+    date_format.DateFormat.new.call(this, "jms", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.jmv = function(locale = null) {
+    date_format.DateFormat.new.call(this, "jmv", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.jmz = function(locale = null) {
+    date_format.DateFormat.new.call(this, "jmz", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.jv = function(locale = null) {
+    date_format.DateFormat.new.call(this, "jv", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.jz = function(locale = null) {
+    date_format.DateFormat.new.call(this, "jz", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.m = function(locale = null) {
+    date_format.DateFormat.new.call(this, "m", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.ms = function(locale = null) {
+    date_format.DateFormat.new.call(this, "ms", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  (date_format.DateFormat.s = function(locale = null) {
+    date_format.DateFormat.new.call(this, "s", T.StringN().as(locale));
+  }).prototype = date_format.DateFormat.prototype;
+  dart.addTypeTests(date_format.DateFormat);
+  dart.addTypeCaches(date_format.DateFormat);
+  dart.setMethodSignature(date_format.DateFormat, () => ({
+    __proto__: dart.getMethods(date_format.DateFormat.__proto__),
+    format: dart.fnType(core.String, [core.DateTime]),
+    formatDuration: dart.fnType(core.String, [core.DateTime]),
+    formatDurationFrom: dart.fnType(core.String, [core.Duration, core.DateTime]),
+    parse: dart.fnType(core.DateTime, [core.String], [core.bool]),
+    parseLoose: dart.fnType(core.DateTime, [core.String], [core.bool]),
+    [_parseLoose]: dart.fnType(core.DateTime, [core.String, core.bool]),
+    parseStrict: dart.fnType(core.DateTime, [core.String], [core.bool]),
+    [_parse]: dart.fnType(core.DateTime, [core.String], {strict: core.bool, utc: core.bool}, {}),
+    parseUTC: dart.fnType(core.DateTime, [core.String]),
+    parseUtc: dart.fnType(core.DateTime, [core.String]),
+    add_d: dart.fnType(date_format.DateFormat, []),
+    add_E: dart.fnType(date_format.DateFormat, []),
+    add_EEEE: dart.fnType(date_format.DateFormat, []),
+    add_LLL: dart.fnType(date_format.DateFormat, []),
+    add_LLLL: dart.fnType(date_format.DateFormat, []),
+    add_M: dart.fnType(date_format.DateFormat, []),
+    add_Md: dart.fnType(date_format.DateFormat, []),
+    add_MEd: dart.fnType(date_format.DateFormat, []),
+    add_MMM: dart.fnType(date_format.DateFormat, []),
+    add_MMMd: dart.fnType(date_format.DateFormat, []),
+    add_MMMEd: dart.fnType(date_format.DateFormat, []),
+    add_MMMM: dart.fnType(date_format.DateFormat, []),
+    add_MMMMd: dart.fnType(date_format.DateFormat, []),
+    add_MMMMEEEEd: dart.fnType(date_format.DateFormat, []),
+    add_QQQ: dart.fnType(date_format.DateFormat, []),
+    add_QQQQ: dart.fnType(date_format.DateFormat, []),
+    add_y: dart.fnType(date_format.DateFormat, []),
+    add_yM: dart.fnType(date_format.DateFormat, []),
+    add_yMd: dart.fnType(date_format.DateFormat, []),
+    add_yMEd: dart.fnType(date_format.DateFormat, []),
+    add_yMMM: dart.fnType(date_format.DateFormat, []),
+    add_yMMMd: dart.fnType(date_format.DateFormat, []),
+    add_yMMMEd: dart.fnType(date_format.DateFormat, []),
+    add_yMMMM: dart.fnType(date_format.DateFormat, []),
+    add_yMMMMd: dart.fnType(date_format.DateFormat, []),
+    add_yMMMMEEEEd: dart.fnType(date_format.DateFormat, []),
+    add_yQQQ: dart.fnType(date_format.DateFormat, []),
+    add_yQQQQ: dart.fnType(date_format.DateFormat, []),
+    add_H: dart.fnType(date_format.DateFormat, []),
+    add_Hm: dart.fnType(date_format.DateFormat, []),
+    add_Hms: dart.fnType(date_format.DateFormat, []),
+    add_j: dart.fnType(date_format.DateFormat, []),
+    add_jm: dart.fnType(date_format.DateFormat, []),
+    add_jms: dart.fnType(date_format.DateFormat, []),
+    add_jmv: dart.fnType(date_format.DateFormat, []),
+    add_jmz: dart.fnType(date_format.DateFormat, []),
+    add_jv: dart.fnType(date_format.DateFormat, []),
+    add_jz: dart.fnType(date_format.DateFormat, []),
+    add_m: dart.fnType(date_format.DateFormat, []),
+    add_ms: dart.fnType(date_format.DateFormat, []),
+    add_s: dart.fnType(date_format.DateFormat, []),
+    [_useDefaultPattern]: dart.fnType(dart.void, []),
+    [_appendPattern]: dart.fnType(dart.void, [core.String], [core.String]),
+    addPattern: dart.fnType(date_format.DateFormat, [dart.nullable(core.String)], [core.String]),
+    [_localizeDigits]: dart.fnType(core.String, [core.String]),
+    [_initDigitMatcher]: dart.fnType(core.RegExp, []),
+    parsePattern: dart.fnType(core.List$(date_format._DateFormatField), [core.String]),
+    [_parsePatternHelper]: dart.fnType(core.List$(date_format._DateFormatField), [core.String]),
+    [_match]: dart.fnType(dart.nullable(date_format._DateFormatField), [core.String])
   }));
-  dart.setLibraryUri(animations.AnimationMean, I[4]);
-  const _is_AnimationMax_default = Symbol('_is_AnimationMax_default');
-  animations.AnimationMax$ = dart.generic(T => {
-    class AnimationMax extends animations.CompoundAnimation$(T) {
-      get value() {
-        return math.max(T, this.first.value, this.next.value);
-      }
-    }
-    (AnimationMax.new = function(first, next) {
-      AnimationMax.__proto__.new.call(this, {first: first, next: next});
-      ;
-    }).prototype = AnimationMax.prototype;
-    dart.addTypeTests(AnimationMax);
-    AnimationMax.prototype[_is_AnimationMax_default] = true;
-    dart.addTypeCaches(AnimationMax);
-    dart.setGetterSignature(AnimationMax, () => ({
-      __proto__: dart.getGetters(AnimationMax.__proto__),
-      value: T
-    }));
-    dart.setLibraryUri(AnimationMax, I[4]);
-    return AnimationMax;
-  });
-  animations.AnimationMax = animations.AnimationMax$();
-  dart.addTypeTests(animations.AnimationMax, _is_AnimationMax_default);
-  const _is_AnimationMin_default = Symbol('_is_AnimationMin_default');
-  animations.AnimationMin$ = dart.generic(T => {
-    class AnimationMin extends animations.CompoundAnimation$(T) {
-      get value() {
-        return math.min(T, this.first.value, this.next.value);
-      }
-    }
-    (AnimationMin.new = function(first, next) {
-      AnimationMin.__proto__.new.call(this, {first: first, next: next});
-      ;
-    }).prototype = AnimationMin.prototype;
-    dart.addTypeTests(AnimationMin);
-    AnimationMin.prototype[_is_AnimationMin_default] = true;
-    dart.addTypeCaches(AnimationMin);
-    dart.setGetterSignature(AnimationMin, () => ({
-      __proto__: dart.getGetters(AnimationMin.__proto__),
-      value: T
-    }));
-    dart.setLibraryUri(AnimationMin, I[4]);
-    return AnimationMin;
-  });
-  animations.AnimationMin = animations.AnimationMin$();
-  dart.addTypeTests(animations.AnimationMin, _is_AnimationMin_default);
-  dart.defineLazy(animations, {
-    /*animations.kAlwaysCompleteAnimation*/get kAlwaysCompleteAnimation() {
-      return C[7] || CT.C7;
+  dart.setGetterSignature(date_format.DateFormat, () => ({
+    __proto__: dart.getGetters(date_format.DateFormat.__proto__),
+    dateOnly: core.bool,
+    [_checkDateOnly]: core.bool,
+    locale: core.String,
+    [_formatFields]: core.List$(date_format._DateFormatField),
+    pattern: dart.nullable(core.String),
+    [_availableSkeletons]: core.Map,
+    dateSymbols: date_symbols.DateSymbols,
+    useNativeDigits: core.bool,
+    digitMatcher: core.RegExp,
+    localeZeroCodeUnit: core.int,
+    localeZero: core.String,
+    usesNativeDigits: core.bool,
+    usesAsciiDigits: core.bool
+  }));
+  dart.setSetterSignature(date_format.DateFormat, () => ({
+    __proto__: dart.getSetters(date_format.DateFormat.__proto__),
+    useNativeDigits: core.bool
+  }));
+  dart.setLibraryUri(date_format.DateFormat, I[0]);
+  dart.setFieldSignature(date_format.DateFormat, () => ({
+    __proto__: dart.getFields(date_format.DateFormat.__proto__),
+    dateTimeConstructor: dart.fieldType(dart.fnType(core.DateTime, [core.int, core.int, core.int, core.int, core.int, core.int, core.int, core.bool])),
+    [_dateOnly]: dart.fieldType(dart.nullable(core.bool)),
+    [_locale]: dart.fieldType(core.String),
+    [_pattern]: dart.fieldType(dart.nullable(core.String)),
+    [_formatFieldsPrivate]: dart.fieldType(dart.nullable(core.List$(date_format._DateFormatField))),
+    [_useNativeDigits]: dart.fieldType(dart.nullable(core.bool)),
+    [_digitMatcher]: dart.fieldType(dart.nullable(core.RegExp)),
+    [_localeZeroCodeUnit]: dart.fieldType(dart.nullable(core.int)),
+    [_localeZero]: dart.fieldType(dart.nullable(core.String))
+  }));
+  dart.defineLazy(date_format.DateFormat, {
+    /*date_format.DateFormat.ABBR_MONTH*/get ABBR_MONTH() {
+      return "MMM";
     },
-    /*animations.kAlwaysDismissedAnimation*/get kAlwaysDismissedAnimation() {
-      return C[8] || CT.C8;
+    /*date_format.DateFormat.DAY*/get DAY() {
+      return "d";
+    },
+    /*date_format.DateFormat.ABBR_WEEKDAY*/get ABBR_WEEKDAY() {
+      return "E";
+    },
+    /*date_format.DateFormat.WEEKDAY*/get WEEKDAY() {
+      return "EEEE";
+    },
+    /*date_format.DateFormat.ABBR_STANDALONE_MONTH*/get ABBR_STANDALONE_MONTH() {
+      return "LLL";
+    },
+    /*date_format.DateFormat.STANDALONE_MONTH*/get STANDALONE_MONTH() {
+      return "LLLL";
+    },
+    /*date_format.DateFormat.NUM_MONTH*/get NUM_MONTH() {
+      return "M";
+    },
+    /*date_format.DateFormat.NUM_MONTH_DAY*/get NUM_MONTH_DAY() {
+      return "Md";
+    },
+    /*date_format.DateFormat.NUM_MONTH_WEEKDAY_DAY*/get NUM_MONTH_WEEKDAY_DAY() {
+      return "MEd";
+    },
+    /*date_format.DateFormat.ABBR_MONTH_DAY*/get ABBR_MONTH_DAY() {
+      return "MMMd";
+    },
+    /*date_format.DateFormat.ABBR_MONTH_WEEKDAY_DAY*/get ABBR_MONTH_WEEKDAY_DAY() {
+      return "MMMEd";
+    },
+    /*date_format.DateFormat.MONTH*/get MONTH() {
+      return "MMMM";
+    },
+    /*date_format.DateFormat.MONTH_DAY*/get MONTH_DAY() {
+      return "MMMMd";
+    },
+    /*date_format.DateFormat.MONTH_WEEKDAY_DAY*/get MONTH_WEEKDAY_DAY() {
+      return "MMMMEEEEd";
+    },
+    /*date_format.DateFormat.ABBR_QUARTER*/get ABBR_QUARTER() {
+      return "QQQ";
+    },
+    /*date_format.DateFormat.QUARTER*/get QUARTER() {
+      return "QQQQ";
+    },
+    /*date_format.DateFormat.YEAR*/get YEAR() {
+      return "y";
+    },
+    /*date_format.DateFormat.YEAR_NUM_MONTH*/get YEAR_NUM_MONTH() {
+      return "yM";
+    },
+    /*date_format.DateFormat.YEAR_NUM_MONTH_DAY*/get YEAR_NUM_MONTH_DAY() {
+      return "yMd";
+    },
+    /*date_format.DateFormat.YEAR_NUM_MONTH_WEEKDAY_DAY*/get YEAR_NUM_MONTH_WEEKDAY_DAY() {
+      return "yMEd";
+    },
+    /*date_format.DateFormat.YEAR_ABBR_MONTH*/get YEAR_ABBR_MONTH() {
+      return "yMMM";
+    },
+    /*date_format.DateFormat.YEAR_ABBR_MONTH_DAY*/get YEAR_ABBR_MONTH_DAY() {
+      return "yMMMd";
+    },
+    /*date_format.DateFormat.YEAR_ABBR_MONTH_WEEKDAY_DAY*/get YEAR_ABBR_MONTH_WEEKDAY_DAY() {
+      return "yMMMEd";
+    },
+    /*date_format.DateFormat.YEAR_MONTH*/get YEAR_MONTH() {
+      return "yMMMM";
+    },
+    /*date_format.DateFormat.YEAR_MONTH_DAY*/get YEAR_MONTH_DAY() {
+      return "yMMMMd";
+    },
+    /*date_format.DateFormat.YEAR_MONTH_WEEKDAY_DAY*/get YEAR_MONTH_WEEKDAY_DAY() {
+      return "yMMMMEEEEd";
+    },
+    /*date_format.DateFormat.YEAR_ABBR_QUARTER*/get YEAR_ABBR_QUARTER() {
+      return "yQQQ";
+    },
+    /*date_format.DateFormat.YEAR_QUARTER*/get YEAR_QUARTER() {
+      return "yQQQQ";
+    },
+    /*date_format.DateFormat.HOUR24*/get HOUR24() {
+      return "H";
+    },
+    /*date_format.DateFormat.HOUR24_MINUTE*/get HOUR24_MINUTE() {
+      return "Hm";
+    },
+    /*date_format.DateFormat.HOUR24_MINUTE_SECOND*/get HOUR24_MINUTE_SECOND() {
+      return "Hms";
+    },
+    /*date_format.DateFormat.HOUR*/get HOUR() {
+      return "j";
+    },
+    /*date_format.DateFormat.HOUR_MINUTE*/get HOUR_MINUTE() {
+      return "jm";
+    },
+    /*date_format.DateFormat.HOUR_MINUTE_SECOND*/get HOUR_MINUTE_SECOND() {
+      return "jms";
+    },
+    /*date_format.DateFormat.HOUR_MINUTE_GENERIC_TZ*/get HOUR_MINUTE_GENERIC_TZ() {
+      return "jmv";
+    },
+    /*date_format.DateFormat.HOUR_MINUTE_TZ*/get HOUR_MINUTE_TZ() {
+      return "jmz";
+    },
+    /*date_format.DateFormat.HOUR_GENERIC_TZ*/get HOUR_GENERIC_TZ() {
+      return "jv";
+    },
+    /*date_format.DateFormat.HOUR_TZ*/get HOUR_TZ() {
+      return "jz";
+    },
+    /*date_format.DateFormat.MINUTE*/get MINUTE() {
+      return "m";
+    },
+    /*date_format.DateFormat.MINUTE_SECOND*/get MINUTE_SECOND() {
+      return "ms";
+    },
+    /*date_format.DateFormat.SECOND*/get SECOND() {
+      return "s";
+    },
+    /*date_format.DateFormat._matchers*/get _matchers() {
+      return T.JSArrayOfRegExp().of([core.RegExp.new("^'(?:[^']|'')*'"), core.RegExp.new("^(?:G+|y+|M+|k+|S+|E+|a+|h+|K+|H+|c+|L+|Q+|d+|D+|m+|s+|v+|z+|Z+)"), core.RegExp.new("^[^'GyMkSEahKHcLQdDmsvzZ]+")]);
+    },
+    /*date_format.DateFormat._useNativeDigitsByDefault*/get _useNativeDigitsByDefault() {
+      return new (T.IdentityMapOfString$bool()).new();
+    },
+    /*date_format.DateFormat._digitMatchers*/get _digitMatchers() {
+      return new (T.IdentityMapOfString$RegExp()).new();
     }
   }, false);
-  const _is_Animatable_default = Symbol('_is_Animatable_default');
-  tween.Animatable$ = dart.generic(T => {
-    var _AnimatedEvaluationOfT = () => (_AnimatedEvaluationOfT = dart.constFn(tween._AnimatedEvaluation$(T)))();
-    var _ChainedEvaluationOfT = () => (_ChainedEvaluationOfT = dart.constFn(tween._ChainedEvaluation$(T)))();
-    class Animatable extends core.Object {
-      evaluate(animation) {
-        return this.transform(animation.value);
-      }
-      animate(parent) {
-        return new (_AnimatedEvaluationOfT()).new(parent, this);
-      }
-      chain(parent) {
-        return new (_ChainedEvaluationOfT()).new(parent, this);
+  var _trimmedPattern = dart.privateName(date_format, "_trimmedPattern");
+  var _trimWhitespace = dart.privateName(date_format, "_trimWhitespace");
+  date_format._DateFormatField = class _DateFormatField extends core.Object {
+    get forDate() {
+      return true;
+    }
+    get width() {
+      return this.pattern.length;
+    }
+    fullPattern() {
+      return this.pattern;
+    }
+    toString() {
+      return this.pattern;
+    }
+    format(date) {
+      return this.pattern;
+    }
+    parseLiteral(input) {
+      let found = input.read(this.width);
+      if (!dart.equals(found, this.pattern)) {
+        this.throwFormatException(input);
       }
     }
-    (Animatable.new = function() {
-      ;
-    }).prototype = Animatable.prototype;
-    dart.addTypeTests(Animatable);
-    Animatable.prototype[_is_Animatable_default] = true;
-    dart.addTypeCaches(Animatable);
-    dart.setMethodSignature(Animatable, () => ({
-      __proto__: dart.getMethods(Animatable.__proto__),
-      evaluate: dart.fnType(T, [animation$.Animation$(core.double)]),
-      animate: dart.fnType(animation$.Animation$(T), [animation$.Animation$(core.double)]),
-      chain: dart.fnType(tween.Animatable$(T), [tween.Animatable$(core.double)])
-    }));
-    dart.setLibraryUri(Animatable, I[6]);
-    return Animatable;
-  });
-  tween.Animatable = tween.Animatable$();
-  dart.addTypeTests(tween.Animatable, _is_Animatable_default);
-  var parent$1 = dart.privateName(tween, "_AnimatedEvaluation.parent");
-  var _evaluatable$ = dart.privateName(tween, "_evaluatable");
-  const _is__AnimatedEvaluation_default = Symbol('_is__AnimatedEvaluation_default');
-  tween._AnimatedEvaluation$ = dart.generic(T => {
-    const Animation_AnimationWithParentMixin$36 = class Animation_AnimationWithParentMixin extends animation$.Animation$(T) {};
-    (Animation_AnimationWithParentMixin$36.new = function() {
-      Animation_AnimationWithParentMixin$36.__proto__.new.call(this);
-    }).prototype = Animation_AnimationWithParentMixin$36.prototype;
-    dart.applyMixin(Animation_AnimationWithParentMixin$36, animations.AnimationWithParentMixin$(core.double));
-    class _AnimatedEvaluation extends Animation_AnimationWithParentMixin$36 {
-      get parent() {
-        return this[parent$1];
+    parseLiteralLoose(input) {
+      this[_trimWhitespace](input);
+      let found = input.peek(this[_trimmedPattern].length);
+      if (dart.equals(found, this[_trimmedPattern])) {
+        input.read(this[_trimmedPattern].length);
       }
-      set parent(value) {
-        super.parent = value;
-      }
-      get value() {
-        return this[_evaluatable$].evaluate(this.parent);
-      }
-      toString() {
-        return dart.str(this.parent) + "➩" + dart.str(this[_evaluatable$]) + "➩" + dart.str(this.value);
-      }
-      toStringDetails() {
-        return super.toStringDetails() + " " + dart.str(this[_evaluatable$]);
+      this[_trimWhitespace](input);
+    }
+    [_trimWhitespace](input) {
+      while (!input.atEnd() && dart.dtest(dart.dload(dart.dsend(input.peek(), 'trim', []), 'isEmpty'))) {
+        input.read();
       }
     }
-    (_AnimatedEvaluation.new = function(parent, _evaluatable) {
-      this[parent$1] = parent;
-      this[_evaluatable$] = _evaluatable;
-      _AnimatedEvaluation.__proto__.new.call(this);
-      ;
-    }).prototype = _AnimatedEvaluation.prototype;
-    dart.addTypeTests(_AnimatedEvaluation);
-    _AnimatedEvaluation.prototype[_is__AnimatedEvaluation_default] = true;
-    dart.addTypeCaches(_AnimatedEvaluation);
-    dart.setGetterSignature(_AnimatedEvaluation, () => ({
-      __proto__: dart.getGetters(_AnimatedEvaluation.__proto__),
-      value: T
-    }));
-    dart.setLibraryUri(_AnimatedEvaluation, I[6]);
-    dart.setFieldSignature(_AnimatedEvaluation, () => ({
-      __proto__: dart.getFields(_AnimatedEvaluation.__proto__),
-      parent: dart.finalFieldType(animation$.Animation$(core.double)),
-      [_evaluatable$]: dart.finalFieldType(tween.Animatable$(T))
-    }));
-    dart.defineExtensionMethods(_AnimatedEvaluation, ['toString']);
-    return _AnimatedEvaluation;
-  });
-  tween._AnimatedEvaluation = tween._AnimatedEvaluation$();
-  dart.addTypeTests(tween._AnimatedEvaluation, _is__AnimatedEvaluation_default);
-  var _parent$ = dart.privateName(tween, "_parent");
-  const _is__ChainedEvaluation_default = Symbol('_is__ChainedEvaluation_default');
-  tween._ChainedEvaluation$ = dart.generic(T => {
-    class _ChainedEvaluation extends tween.Animatable$(T) {
-      transform(t) {
-        return this[_evaluatable$].transform(this[_parent$].transform(t));
-      }
-      toString() {
-        return dart.str(this[_parent$]) + "➩" + dart.str(this[_evaluatable$]);
+    throwFormatException(stream) {
+      dart.throw(new core.FormatException.new("Trying to read " + dart.str(this) + " from " + dart.str(stream.contents) + " " + "at position " + dart.str(stream.index)));
+    }
+  };
+  (date_format._DateFormatField.new = function(pattern, parent) {
+    this.pattern = pattern;
+    this.parent = parent;
+    this[_trimmedPattern] = pattern[$trim]();
+    ;
+  }).prototype = date_format._DateFormatField.prototype;
+  dart.addTypeTests(date_format._DateFormatField);
+  dart.addTypeCaches(date_format._DateFormatField);
+  dart.setMethodSignature(date_format._DateFormatField, () => ({
+    __proto__: dart.getMethods(date_format._DateFormatField.__proto__),
+    fullPattern: dart.fnType(core.String, []),
+    format: dart.fnType(core.String, [core.DateTime]),
+    parseLiteral: dart.fnType(dart.void, [intl_stream.IntlStream]),
+    parseLiteralLoose: dart.fnType(dart.void, [intl_stream.IntlStream]),
+    [_trimWhitespace]: dart.fnType(dart.void, [intl_stream.IntlStream]),
+    throwFormatException: dart.fnType(dart.Never, [intl_stream.IntlStream])
+  }));
+  dart.setGetterSignature(date_format._DateFormatField, () => ({
+    __proto__: dart.getGetters(date_format._DateFormatField.__proto__),
+    forDate: core.bool,
+    width: core.int
+  }));
+  dart.setLibraryUri(date_format._DateFormatField, I[0]);
+  dart.setFieldSignature(date_format._DateFormatField, () => ({
+    __proto__: dart.getFields(date_format._DateFormatField.__proto__),
+    pattern: dart.finalFieldType(core.String),
+    parent: dart.fieldType(date_format.DateFormat),
+    [_trimmedPattern]: dart.finalFieldType(core.String)
+  }));
+  dart.defineExtensionMethods(date_format._DateFormatField, ['toString']);
+  date_format._DateFormatLiteralField = class _DateFormatLiteralField extends date_format._DateFormatField {
+    parse(input, dateFields) {
+      this.parseLiteral(input);
+    }
+    parseLoose(input, dateFields) {
+      return this.parseLiteralLoose(input);
+    }
+  };
+  (date_format._DateFormatLiteralField.new = function(pattern, parent) {
+    date_format._DateFormatLiteralField.__proto__.new.call(this, pattern, parent);
+    ;
+  }).prototype = date_format._DateFormatLiteralField.prototype;
+  dart.addTypeTests(date_format._DateFormatLiteralField);
+  dart.addTypeCaches(date_format._DateFormatLiteralField);
+  dart.setMethodSignature(date_format._DateFormatLiteralField, () => ({
+    __proto__: dart.getMethods(date_format._DateFormatLiteralField.__proto__),
+    parse: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    parseLoose: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder])
+  }));
+  dart.setLibraryUri(date_format._DateFormatLiteralField, I[0]);
+  var _fullPattern = dart.privateName(date_format, "_fullPattern");
+  date_format._DateFormatQuotedField = class _DateFormatQuotedField extends date_format._DateFormatField {
+    fullPattern() {
+      return this[_fullPattern];
+    }
+    parse(input, dateFields) {
+      this.parseLiteral(input);
+    }
+    parseLoose(input, dateFields) {
+      return this.parseLiteralLoose(input);
+    }
+    static _patchQuotes(pattern) {
+      if (pattern === "''") {
+        return "'";
+      } else {
+        return pattern[$substring](1, pattern.length - 1)[$replaceAll](date_format._DateFormatQuotedField._twoEscapedQuotes, "'");
       }
     }
-    (_ChainedEvaluation.new = function(_parent, _evaluatable) {
-      this[_parent$] = _parent;
-      this[_evaluatable$] = _evaluatable;
-      _ChainedEvaluation.__proto__.new.call(this);
-      ;
-    }).prototype = _ChainedEvaluation.prototype;
-    dart.addTypeTests(_ChainedEvaluation);
-    _ChainedEvaluation.prototype[_is__ChainedEvaluation_default] = true;
-    dart.addTypeCaches(_ChainedEvaluation);
-    dart.setMethodSignature(_ChainedEvaluation, () => ({
-      __proto__: dart.getMethods(_ChainedEvaluation.__proto__),
-      transform: dart.fnType(T, [core.double])
-    }));
-    dart.setLibraryUri(_ChainedEvaluation, I[6]);
-    dart.setFieldSignature(_ChainedEvaluation, () => ({
-      __proto__: dart.getFields(_ChainedEvaluation.__proto__),
-      [_parent$]: dart.finalFieldType(tween.Animatable$(core.double)),
-      [_evaluatable$]: dart.finalFieldType(tween.Animatable$(T))
-    }));
-    dart.defineExtensionMethods(_ChainedEvaluation, ['toString']);
-    return _ChainedEvaluation;
-  });
-  tween._ChainedEvaluation = tween._ChainedEvaluation$();
-  dart.addTypeTests(tween._ChainedEvaluation, _is__ChainedEvaluation_default);
-  var begin$ = dart.privateName(tween, "Tween.begin");
-  var end$ = dart.privateName(tween, "Tween.end");
-  const _is_Tween_default = Symbol('_is_Tween_default');
-  tween.Tween$ = dart.generic(T => {
-    var TN = () => (TN = dart.constFn(dart.nullable(T)))();
-    class Tween extends tween.Animatable$(T) {
-      get begin() {
-        return this[begin$];
-      }
-      set begin(value) {
-        this[begin$] = TN().as(value);
-      }
-      get end() {
-        return this[end$];
-      }
-      set end(value) {
-        this[end$] = TN().as(value);
-      }
-      lerp(t) {
-        if (!(this.begin != null)) dart.assertFailed(null, I[7], 257, 12, "begin != null");
-        if (!(this.end != null)) dart.assertFailed(null, I[7], 258, 12, "end != null");
-        if (!dart.fn(() => {
-          let result = null;
-          try {
-            result = dart.dsend(this.begin, '+', [dart.dsend(dart.dsend(this.end, '-', [this.begin]), '*', [t])]);
-            T.as(result);
-            return true;
-          } catch (e) {
-            let ex = dart.getThrown(e);
-            if (core.NoSuchMethodError.is(ex)) {
-              dart.throw(new assertions.FlutterError.fromParts((() => {
-                let t5 = T$.JSArrayOfDiagnosticsNode().of([new assertions.ErrorSummary.new("Cannot lerp between \"" + dart.str(this.begin) + "\" and \"" + dart.str(this.end) + "\"."), new assertions.ErrorDescription.new("The type " + dart.str(dart.runtimeType(this.begin)) + " might not fully implement `+`, `-`, and/or `*`. " + "See \"Types with special considerations\" at https://api.flutter.dev/flutter/animation/Tween-class.html " + "for more information.")]);
-                if (ui.Color.is(this.begin) || ui.Color.is(this.end))
-                  t5[$add](new assertions.ErrorHint.new("To lerp colors, consider ColorTween instead."));
-                else if (ui.Rect.is(this.begin) || ui.Rect.is(this.end))
-                  t5[$add](new assertions.ErrorHint.new("To lerp rects, consider RectTween instead."));
-                else
-                  t5[$add](new assertions.ErrorHint.new("There may be a dedicated \"" + dart.str(dart.runtimeType(this.begin)) + "Tween\" for this type, " + "or you may need to create one."));
-                return t5;
-              })()));
-            } else if (core.TypeError.is(ex)) {
-              dart.throw(new assertions.FlutterError.fromParts((() => {
-                let t3 = T$.JSArrayOfDiagnosticsNode().of([new assertions.ErrorSummary.new("Cannot lerp between \"" + dart.str(this.begin) + "\" and \"" + dart.str(this.end) + "\"."), new assertions.ErrorDescription.new("The type " + dart.str(dart.runtimeType(this.begin)) + " returned a " + dart.str(dart.runtimeType(result)) + " after " + "multiplication with a double value. " + "See \"Types with special considerations\" at https://api.flutter.dev/flutter/animation/Tween-class.html " + "for more information.")]);
-                if (core.int.is(this.begin) || core.int.is(this.end))
-                  t3[$add](new assertions.ErrorHint.new("To lerp int values, consider IntTween or StepTween instead."));
-                else
-                  t3[$add](new assertions.ErrorHint.new("There may be a dedicated \"" + dart.str(dart.runtimeType(this.begin)) + "Tween\" for this type, " + "or you may need to create one."));
-                return t3;
-              })()));
-            } else
-              throw e;
+  };
+  (date_format._DateFormatQuotedField.new = function(pattern, parent) {
+    this[_fullPattern] = pattern;
+    date_format._DateFormatQuotedField.__proto__.new.call(this, date_format._DateFormatQuotedField._patchQuotes(pattern), parent);
+    ;
+  }).prototype = date_format._DateFormatQuotedField.prototype;
+  dart.addTypeTests(date_format._DateFormatQuotedField);
+  dart.addTypeCaches(date_format._DateFormatQuotedField);
+  dart.setMethodSignature(date_format._DateFormatQuotedField, () => ({
+    __proto__: dart.getMethods(date_format._DateFormatQuotedField.__proto__),
+    parse: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    parseLoose: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder])
+  }));
+  dart.setLibraryUri(date_format._DateFormatQuotedField, I[0]);
+  dart.setFieldSignature(date_format._DateFormatQuotedField, () => ({
+    __proto__: dart.getFields(date_format._DateFormatQuotedField.__proto__),
+    [_fullPattern]: dart.finalFieldType(core.String)
+  }));
+  dart.defineLazy(date_format._DateFormatQuotedField, {
+    /*date_format._DateFormatQuotedField._twoEscapedQuotes*/get _twoEscapedQuotes() {
+      return core.RegExp.new("''");
+    }
+  }, false);
+  var _forDate = dart.privateName(date_format, "_forDate");
+  date_format._DateFormatPatternField = class _DateFormatPatternField extends date_format._DateFormatField {
+    format(date) {
+      return this.formatField(date);
+    }
+    parse(input, dateFields) {
+      this.parseField(input, dateFields);
+    }
+    parseLoose(input, dateFields) {
+      new date_format._LoosePatternField.new(this.pattern, this.parent).parse(input, dateFields);
+    }
+    get forDate() {
+      let t4;
+      t4 = this[_forDate];
+      return t4 == null ? this[_forDate] = "cdDEGLMQvyZz"[$contains](this.pattern[$_get](0)) : t4;
+    }
+    parseField(input, builder) {
+      try {
+        switch (this.pattern[$_get](0)) {
+          case "a":
+          {
+            this.parseAmPm(input, builder);
+            break;
           }
-        }, T$.VoidTobool())()) dart.assertFailed(null, I[7], 259, 12, "() {\r\n      // Assertions that attempt to catch common cases of tweening types\r\n      // that do not conform to the Tween requirements.\r\n      dynamic result;\r\n      try {\r\n        result = begin + (end - begin) * t;\r\n        result as T;\r\n        return true;\r\n      } on NoSuchMethodError {\r\n        throw FlutterError.fromParts(<DiagnosticsNode>[\r\n          ErrorSummary('Cannot lerp between \"$begin\" and \"$end\".'),\r\n          ErrorDescription(\r\n            'The type ${begin.runtimeType} might not fully implement `+`, `-`, and/or `*`. '\r\n            'See \"Types with special considerations\" at https://api.flutter.dev/flutter/animation/Tween-class.html '\r\n            'for more information.',\r\n          ),\r\n          if (begin is Color || end is Color)\r\n            ErrorHint('To lerp colors, consider ColorTween instead.')\r\n          else if (begin is Rect || end is Rect)\r\n            ErrorHint('To lerp rects, consider RectTween instead.')\r\n          else\r\n            ErrorHint(\r\n              'There may be a dedicated \"${begin.runtimeType}Tween\" for this type, '\r\n              'or you may need to create one.',\r\n            ),\r\n        ]);\r\n      } on TypeError {\r\n        throw FlutterError.fromParts(<DiagnosticsNode>[\r\n          ErrorSummary('Cannot lerp between \"$begin\" and \"$end\".'),\r\n          ErrorDescription(\r\n            'The type ${begin.runtimeType} returned a ${result.runtimeType} after '\r\n            'multiplication with a double value. '\r\n            'See \"Types with special considerations\" at https://api.flutter.dev/flutter/animation/Tween-class.html '\r\n            'for more information.',\r\n          ),\r\n          if (begin is int || end is int)\r\n            ErrorHint('To lerp int values, consider IntTween or StepTween instead.')\r\n          else\r\n            ErrorHint(\r\n              'There may be a dedicated \"${begin.runtimeType}Tween\" for this type, '\r\n              'or you may need to create one.',\r\n            ),\r\n        ]);\r\n      }\r\n    }()");
-        return T.as(dart.dsend(this.begin, '+', [dart.dsend(dart.dsend(this.end, '-', [this.begin]), '*', [t])]));
-      }
-      transform(t) {
-        if (t === 0.0) return T.as(this.begin);
-        if (t === 1.0) return T.as(this.end);
-        return this.lerp(t);
-      }
-      toString() {
-        return object.objectRuntimeType(this, "Animatable") + "(" + dart.str(this.begin) + " → " + dart.str(this.end) + ")";
+          case "c":
+          {
+            this.parseStandaloneDay(input);
+            break;
+          }
+          case "d":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setDay'));
+            break;
+          }
+          case "D":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setDayOfYear'));
+            break;
+          }
+          case "E":
+          {
+            this.parseDayOfWeek(input);
+            break;
+          }
+          case "G":
+          {
+            this.parseEra(input);
+            break;
+          }
+          case "h":
+          {
+            this.parse1To12Hours(input, builder);
+            break;
+          }
+          case "H":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setHour'));
+            break;
+          }
+          case "K":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setHour'));
+            break;
+          }
+          case "k":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setHour'), -1);
+            break;
+          }
+          case "L":
+          {
+            this.parseStandaloneMonth(input, builder);
+            break;
+          }
+          case "M":
+          {
+            this.parseMonth(input, builder);
+            break;
+          }
+          case "m":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setMinute'));
+            break;
+          }
+          case "Q":
+          {
+            break;
+          }
+          case "S":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setFractionalSecond'));
+            break;
+          }
+          case "s":
+          {
+            this.handleNumericField(input, dart.bind(builder, 'setSecond'));
+            break;
+          }
+          case "v":
+          {
+            break;
+          }
+          case "y":
+          {
+            this.parseYear(input, builder);
+            break;
+          }
+          case "z":
+          {
+            break;
+          }
+          case "Z":
+          {
+            break;
+          }
+          default:
+          {
+            return;
+          }
+        }
+      } catch (e$) {
+        let e = dart.getThrown(e$);
+        if (core.Object.is(e)) {
+          this.throwFormatException(input);
+        } else
+          throw e$;
       }
     }
-    (Tween.new = function(opts) {
-      let begin = opts && 'begin' in opts ? opts.begin : null;
-      let end = opts && 'end' in opts ? opts.end : null;
-      this[begin$] = begin;
-      this[end$] = end;
-      Tween.__proto__.new.call(this);
-      ;
-    }).prototype = Tween.prototype;
-    dart.addTypeTests(Tween);
-    Tween.prototype[_is_Tween_default] = true;
-    dart.addTypeCaches(Tween);
-    dart.setMethodSignature(Tween, () => ({
-      __proto__: dart.getMethods(Tween.__proto__),
-      lerp: dart.fnType(T, [core.double]),
-      transform: dart.fnType(T, [core.double])
-    }));
-    dart.setLibraryUri(Tween, I[6]);
-    dart.setFieldSignature(Tween, () => ({
-      __proto__: dart.getFields(Tween.__proto__),
-      begin: dart.fieldType(dart.nullable(T)),
-      end: dart.fieldType(dart.nullable(T))
-    }));
-    dart.defineExtensionMethods(Tween, ['toString']);
-    return Tween;
-  });
-  tween.Tween = tween.Tween$();
-  dart.addTypeTests(tween.Tween, _is_Tween_default);
-  var parent$2 = dart.privateName(tween, "ReverseTween.parent");
-  const _is_ReverseTween_default = Symbol('_is_ReverseTween_default');
-  tween.ReverseTween$ = dart.generic(T => {
-    class ReverseTween extends tween.Tween$(T) {
-      get parent() {
-        return this[parent$2];
-      }
-      set parent(value) {
-        super.parent = value;
-      }
-      lerp(t) {
-        return this.parent.lerp(1.0 - t);
+    formatField(date) {
+      switch (this.pattern[$_get](0)) {
+        case "a":
+        {
+          return this.formatAmPm(date);
+        }
+        case "c":
+        {
+          return this.formatStandaloneDay(date);
+        }
+        case "d":
+        {
+          return this.formatDayOfMonth(date);
+        }
+        case "D":
+        {
+          return this.formatDayOfYear(date);
+        }
+        case "E":
+        {
+          return this.formatDayOfWeek(date);
+        }
+        case "G":
+        {
+          return this.formatEra(date);
+        }
+        case "h":
+        {
+          return this.format1To12Hours(date);
+        }
+        case "H":
+        {
+          return this.format0To23Hours(date);
+        }
+        case "K":
+        {
+          return this.format0To11Hours(date);
+        }
+        case "k":
+        {
+          return this.format24Hours(date);
+        }
+        case "L":
+        {
+          return this.formatStandaloneMonth(date);
+        }
+        case "M":
+        {
+          return this.formatMonth(date);
+        }
+        case "m":
+        {
+          return this.formatMinutes(date);
+        }
+        case "Q":
+        {
+          return this.formatQuarter(date);
+        }
+        case "S":
+        {
+          return this.formatFractionalSeconds(date);
+        }
+        case "s":
+        {
+          return this.formatSeconds(date);
+        }
+        case "v":
+        {
+          return this.formatTimeZoneId(date);
+        }
+        case "y":
+        {
+          return this.formatYear(date);
+        }
+        case "z":
+        {
+          return this.formatTimeZone(date);
+        }
+        case "Z":
+        {
+          return this.formatTimeZoneRFC(date);
+        }
+        default:
+        {
+          return "";
+        }
       }
     }
-    (ReverseTween.new = function(parent) {
-      this[parent$2] = parent;
-      if (!(parent !== null)) dart.assertFailed(null, I[7], 336, 14, "parent != null");
-      ReverseTween.__proto__.new.call(this, {begin: parent.end, end: parent.begin});
-      ;
-    }).prototype = ReverseTween.prototype;
-    dart.addTypeTests(ReverseTween);
-    ReverseTween.prototype[_is_ReverseTween_default] = true;
-    dart.addTypeCaches(ReverseTween);
-    dart.setLibraryUri(ReverseTween, I[6]);
-    dart.setFieldSignature(ReverseTween, () => ({
-      __proto__: dart.getFields(ReverseTween.__proto__),
-      parent: dart.finalFieldType(tween.Tween$(T))
-    }));
-    return ReverseTween;
-  });
-  tween.ReverseTween = tween.ReverseTween$();
-  dart.addTypeTests(tween.ReverseTween, _is_ReverseTween_default);
-  tween.ColorTween = class ColorTween extends tween.Tween$(dart.nullable(ui.Color)) {
-    lerp(t) {
-      return ui.Color.lerp(this.begin, this.end, t);
+    get symbols() {
+      return this.parent.dateSymbols;
+    }
+    formatEra(date) {
+      let era = date.year > 0 ? 1 : 0;
+      return this.width >= 4 ? this.symbols.ERANAMES[$_get](era) : this.symbols.ERAS[$_get](era);
+    }
+    formatYear(date) {
+      let year = date.year;
+      if (year < 0) {
+        year = -year;
+      }
+      return this.width === 2 ? this.padTo(2, year[$modulo](100)) : this.padTo(this.width, year);
+    }
+    handleNumericField(input, setter, offset = 0) {
+      let result = input.nextInteger({digitMatcher: this.parent.digitMatcher, zeroDigit: this.parent.localeZeroCodeUnit});
+      if (result == null) this.throwFormatException(input);
+      setter(dart.notNull(result) + offset);
+    }
+    parseEnumeratedString(input, possibilities) {
+      let results = new intl_stream.IntlStream.new(possibilities).findIndexes(dart.fn(each => dart.equals(input.peek(core.int.as(dart.dload(each, 'length'))), each), T.dynamicTobool()));
+      if (results[$isEmpty]) this.throwFormatException(input);
+      results[$sort](dart.fn((a, b) => possibilities[$_get](core.int.as(a)).length[$compareTo](possibilities[$_get](core.int.as(b)).length), T.dynamicAnddynamicToint()));
+      let longestResult = results[$last];
+      input.read(possibilities[$_get](core.int.as(longestResult)).length);
+      return core.int.as(longestResult);
+    }
+    parseYear(input, builder) {
+      this.handleNumericField(input, dart.bind(builder, 'setYear'));
+      builder.setHasAmbiguousCentury(this.width === 2);
+    }
+    formatMonth(date) {
+      switch (this.width) {
+        case 5:
+        {
+          return this.symbols.NARROWMONTHS[$_get](date.month - 1);
+        }
+        case 4:
+        {
+          return this.symbols.MONTHS[$_get](date.month - 1);
+        }
+        case 3:
+        {
+          return this.symbols.SHORTMONTHS[$_get](date.month - 1);
+        }
+        default:
+        {
+          return this.padTo(this.width, date.month);
+        }
+      }
+    }
+    parseMonth(input, dateFields) {
+      let possibilities = null;
+      switch (this.width) {
+        case 5:
+        {
+          possibilities = this.symbols.NARROWMONTHS;
+          break;
+        }
+        case 4:
+        {
+          possibilities = this.symbols.MONTHS;
+          break;
+        }
+        case 3:
+        {
+          possibilities = this.symbols.SHORTMONTHS;
+          break;
+        }
+        default:
+        {
+          return this.handleNumericField(input, dart.bind(dateFields, 'setMonth'));
+        }
+      }
+      dateFields.month = this.parseEnumeratedString(input, possibilities) + 1;
+    }
+    format24Hours(date) {
+      let hour = date.hour === 0 ? 24 : date.hour;
+      return this.padTo(this.width, hour);
+    }
+    formatFractionalSeconds(date) {
+      let basic = this.padTo(3, date.millisecond);
+      if (this.width - 3 > 0) {
+        let extra = this.padTo(this.width - 3, 0);
+        return basic + extra;
+      } else {
+        return basic;
+      }
+    }
+    formatAmPm(date) {
+      let hours = date.hour;
+      let index = hours >= 12 && hours < 24 ? 1 : 0;
+      let ampm = this.symbols.AMPMS;
+      return ampm[$_get](index);
+    }
+    parseAmPm(input, dateFields) {
+      let ampm = this.parseEnumeratedString(intl_stream.IntlStream.as(input), this.symbols.AMPMS);
+      if (ampm === 1) dart.dput(dateFields, 'pm', true);
+    }
+    format1To12Hours(date) {
+      let hours = date.hour;
+      if (date.hour > 12) hours = hours - 12;
+      if (hours === 0) hours = 12;
+      return this.padTo(this.width, hours);
+    }
+    parse1To12Hours(input, dateFields) {
+      this.handleNumericField(input, dart.bind(dateFields, 'setHour'));
+      if (dateFields.hour === 12) dateFields.hour = 0;
+    }
+    format0To11Hours(date) {
+      return this.padTo(this.width, date.hour[$modulo](12));
+    }
+    format0To23Hours(date) {
+      return this.padTo(this.width, date.hour);
+    }
+    formatStandaloneDay(date) {
+      switch (this.width) {
+        case 5:
+        {
+          return this.symbols.STANDALONENARROWWEEKDAYS[$_get](date.weekday[$modulo](7));
+        }
+        case 4:
+        {
+          return this.symbols.STANDALONEWEEKDAYS[$_get](date.weekday[$modulo](7));
+        }
+        case 3:
+        {
+          return this.symbols.STANDALONESHORTWEEKDAYS[$_get](date.weekday[$modulo](7));
+        }
+        default:
+        {
+          return this.padTo(1, date.day);
+        }
+      }
+    }
+    parseStandaloneDay(input) {
+      let possibilities = null;
+      switch (this.width) {
+        case 5:
+        {
+          possibilities = this.symbols.STANDALONENARROWWEEKDAYS;
+          break;
+        }
+        case 4:
+        {
+          possibilities = this.symbols.STANDALONEWEEKDAYS;
+          break;
+        }
+        case 3:
+        {
+          possibilities = this.symbols.STANDALONESHORTWEEKDAYS;
+          break;
+        }
+        default:
+        {
+          return this.handleNumericField(input, dart.fn(x => x, T.intTovoid()));
+        }
+      }
+      this.parseEnumeratedString(input, possibilities);
+    }
+    formatStandaloneMonth(date) {
+      switch (this.width) {
+        case 5:
+        {
+          return this.symbols.STANDALONENARROWMONTHS[$_get](date.month - 1);
+        }
+        case 4:
+        {
+          return this.symbols.STANDALONEMONTHS[$_get](date.month - 1);
+        }
+        case 3:
+        {
+          return this.symbols.STANDALONESHORTMONTHS[$_get](date.month - 1);
+        }
+        default:
+        {
+          return this.padTo(this.width, date.month);
+        }
+      }
+    }
+    parseStandaloneMonth(input, dateFields) {
+      let possibilities = null;
+      switch (this.width) {
+        case 5:
+        {
+          possibilities = this.symbols.STANDALONENARROWMONTHS;
+          break;
+        }
+        case 4:
+        {
+          possibilities = this.symbols.STANDALONEMONTHS;
+          break;
+        }
+        case 3:
+        {
+          possibilities = this.symbols.STANDALONESHORTMONTHS;
+          break;
+        }
+        default:
+        {
+          return this.handleNumericField(intl_stream.IntlStream.as(input), T.intTovoid().as(dart.dload(dateFields, 'setMonth')));
+        }
+      }
+      dart.dput(dateFields, 'month', this.parseEnumeratedString(intl_stream.IntlStream.as(input), possibilities) + 1);
+    }
+    formatQuarter(date) {
+      let quarter = ((date.month - 1) / 3)[$truncate]();
+      switch (this.width) {
+        case 4:
+        {
+          return this.symbols.QUARTERS[$_get](quarter);
+        }
+        case 3:
+        {
+          return this.symbols.SHORTQUARTERS[$_get](quarter);
+        }
+        default:
+        {
+          return this.padTo(this.width, quarter + 1);
+        }
+      }
+    }
+    formatDayOfMonth(date) {
+      return this.padTo(this.width, date.day);
+    }
+    formatDayOfYear(date) {
+      return this.padTo(this.width, date_computation.dayOfYear(date.month, date.day, date_computation.isLeapYear(date)));
+    }
+    formatDayOfWeek(date) {
+      return (this.width >= 4 ? this.symbols.WEEKDAYS : this.symbols.SHORTWEEKDAYS)[$_get](date.weekday[$modulo](7));
+    }
+    parseDayOfWeek(input) {
+      let possibilities = this.width >= 4 ? this.symbols.WEEKDAYS : this.symbols.SHORTWEEKDAYS;
+      this.parseEnumeratedString(input, possibilities);
+    }
+    parseEra(input) {
+      let possibilities = this.width >= 4 ? this.symbols.ERANAMES : this.symbols.ERAS;
+      this.parseEnumeratedString(input, possibilities);
+    }
+    formatMinutes(date) {
+      return this.padTo(this.width, date.minute);
+    }
+    formatSeconds(date) {
+      return this.padTo(this.width, date.second);
+    }
+    formatTimeZoneId(date) {
+      dart.throw(new core.UnimplementedError.new());
+    }
+    formatTimeZone(date) {
+      dart.throw(new core.UnimplementedError.new());
+    }
+    formatTimeZoneRFC(date) {
+      dart.throw(new core.UnimplementedError.new());
+    }
+    padTo(width, toBePrinted) {
+      return this.parent[_localizeDigits](dart.str(toBePrinted)[$padLeft](width, "0"));
     }
   };
-  (tween.ColorTween.new = function(opts) {
-    let begin = opts && 'begin' in opts ? opts.begin : null;
-    let end = opts && 'end' in opts ? opts.end : null;
-    tween.ColorTween.__proto__.new.call(this, {begin: begin, end: end});
+  (date_format._DateFormatPatternField.new = function(pattern, parent) {
+    this[_forDate] = null;
+    date_format._DateFormatPatternField.__proto__.new.call(this, core.String.as(pattern), date_format.DateFormat.as(parent));
     ;
-  }).prototype = tween.ColorTween.prototype;
-  dart.addTypeTests(tween.ColorTween);
-  dart.addTypeCaches(tween.ColorTween);
-  dart.setLibraryUri(tween.ColorTween, I[6]);
-  tween.SizeTween = class SizeTween extends tween.Tween$(dart.nullable(ui.Size)) {
-    lerp(t) {
-      return ui.Size.lerp(this.begin, this.end, t);
-    }
-  };
-  (tween.SizeTween.new = function(opts) {
-    let begin = opts && 'begin' in opts ? opts.begin : null;
-    let end = opts && 'end' in opts ? opts.end : null;
-    tween.SizeTween.__proto__.new.call(this, {begin: begin, end: end});
-    ;
-  }).prototype = tween.SizeTween.prototype;
-  dart.addTypeTests(tween.SizeTween);
-  dart.addTypeCaches(tween.SizeTween);
-  dart.setLibraryUri(tween.SizeTween, I[6]);
-  tween.RectTween = class RectTween extends tween.Tween$(dart.nullable(ui.Rect)) {
-    lerp(t) {
-      return ui.Rect.lerp(this.begin, this.end, t);
-    }
-  };
-  (tween.RectTween.new = function(opts) {
-    let begin = opts && 'begin' in opts ? opts.begin : null;
-    let end = opts && 'end' in opts ? opts.end : null;
-    tween.RectTween.__proto__.new.call(this, {begin: begin, end: end});
-    ;
-  }).prototype = tween.RectTween.prototype;
-  dart.addTypeTests(tween.RectTween);
-  dart.addTypeCaches(tween.RectTween);
-  dart.setLibraryUri(tween.RectTween, I[6]);
-  tween.IntTween = class IntTween extends tween.Tween$(core.int) {
-    lerp(t) {
-      return (dart.nullCheck(this.begin) + (dart.nullCheck(this.end) - dart.nullCheck(this.begin)) * t)[$round]();
-    }
-  };
-  (tween.IntTween.new = function(opts) {
-    let begin = opts && 'begin' in opts ? opts.begin : null;
-    let end = opts && 'end' in opts ? opts.end : null;
-    tween.IntTween.__proto__.new.call(this, {begin: begin, end: end});
-    ;
-  }).prototype = tween.IntTween.prototype;
-  dart.addTypeTests(tween.IntTween);
-  dart.addTypeCaches(tween.IntTween);
-  dart.setLibraryUri(tween.IntTween, I[6]);
-  tween.StepTween = class StepTween extends tween.Tween$(core.int) {
-    lerp(t) {
-      return (dart.nullCheck(this.begin) + (dart.nullCheck(this.end) - dart.nullCheck(this.begin)) * t)[$floor]();
-    }
-  };
-  (tween.StepTween.new = function(opts) {
-    let begin = opts && 'begin' in opts ? opts.begin : null;
-    let end = opts && 'end' in opts ? opts.end : null;
-    tween.StepTween.__proto__.new.call(this, {begin: begin, end: end});
-    ;
-  }).prototype = tween.StepTween.prototype;
-  dart.addTypeTests(tween.StepTween);
-  dart.addTypeCaches(tween.StepTween);
-  dart.setLibraryUri(tween.StepTween, I[6]);
-  const _is_ConstantTween_default = Symbol('_is_ConstantTween_default');
-  tween.ConstantTween$ = dart.generic(T => {
-    class ConstantTween extends tween.Tween$(T) {
-      lerp(t) {
-        return T.as(this.begin);
-      }
-      toString() {
-        return object.objectRuntimeType(this, "ConstantTween") + "(value: " + dart.str(this.begin) + ")";
-      }
-    }
-    (ConstantTween.new = function(value) {
-      ConstantTween.__proto__.new.call(this, {begin: value, end: value});
-      ;
-    }).prototype = ConstantTween.prototype;
-    dart.addTypeTests(ConstantTween);
-    ConstantTween.prototype[_is_ConstantTween_default] = true;
-    dart.addTypeCaches(ConstantTween);
-    dart.setLibraryUri(ConstantTween, I[6]);
-    dart.defineExtensionMethods(ConstantTween, ['toString']);
-    return ConstantTween;
-  });
-  tween.ConstantTween = tween.ConstantTween$();
-  dart.addTypeTests(tween.ConstantTween, _is_ConstantTween_default);
-  var curve$0 = dart.privateName(tween, "CurveTween.curve");
-  tween.CurveTween = class CurveTween extends tween.Animatable$(core.double) {
-    get curve() {
-      return this[curve$0];
-    }
-    set curve(value) {
-      this[curve$0] = value;
-    }
-    transform(t) {
-      if (t === 0.0 || t === 1.0) {
-        if (!(this.curve.transform(t)[$round]() === t)) dart.assertFailed(null, I[7], 525, 14, "curve.transform(t).round() == t");
-        return t;
-      }
-      return this.curve.transform(t);
-    }
-    toString() {
-      return object.objectRuntimeType(this, "CurveTween") + "(curve: " + dart.str(this.curve) + ")";
-    }
-  };
-  (tween.CurveTween.new = function(opts) {
-    let curve = opts && 'curve' in opts ? opts.curve : null;
-    this[curve$0] = curve;
-    if (!(curve !== null)) dart.assertFailed(null, I[7], 517, 14, "curve != null");
-    tween.CurveTween.__proto__.new.call(this);
-    ;
-  }).prototype = tween.CurveTween.prototype;
-  dart.addTypeTests(tween.CurveTween);
-  dart.addTypeCaches(tween.CurveTween);
-  dart.setMethodSignature(tween.CurveTween, () => ({
-    __proto__: dart.getMethods(tween.CurveTween.__proto__),
-    transform: dart.fnType(core.double, [core.double])
+  }).prototype = date_format._DateFormatPatternField.prototype;
+  dart.addTypeTests(date_format._DateFormatPatternField);
+  dart.addTypeCaches(date_format._DateFormatPatternField);
+  dart.setMethodSignature(date_format._DateFormatPatternField, () => ({
+    __proto__: dart.getMethods(date_format._DateFormatPatternField.__proto__),
+    parse: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    parseLoose: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    parseField: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    formatField: dart.fnType(core.String, [core.DateTime]),
+    formatEra: dart.fnType(core.String, [core.DateTime]),
+    formatYear: dart.fnType(core.String, [core.DateTime]),
+    handleNumericField: dart.fnType(dart.void, [intl_stream.IntlStream, dart.fnType(dart.void, [core.int])], [core.int]),
+    parseEnumeratedString: dart.fnType(core.int, [intl_stream.IntlStream, core.List$(core.String)]),
+    parseYear: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    formatMonth: dart.fnType(core.String, [core.DateTime]),
+    parseMonth: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    format24Hours: dart.fnType(core.String, [core.DateTime]),
+    formatFractionalSeconds: dart.fnType(core.String, [core.DateTime]),
+    formatAmPm: dart.fnType(core.String, [core.DateTime]),
+    parseAmPm: dart.fnType(dart.void, [dart.dynamic, dart.dynamic]),
+    format1To12Hours: dart.fnType(core.String, [core.DateTime]),
+    parse1To12Hours: dart.fnType(dart.void, [intl_stream.IntlStream, date_builder.DateBuilder]),
+    format0To11Hours: dart.fnType(core.String, [core.DateTime]),
+    format0To23Hours: dart.fnType(core.String, [core.DateTime]),
+    formatStandaloneDay: dart.fnType(core.String, [core.DateTime]),
+    parseStandaloneDay: dart.fnType(dart.void, [intl_stream.IntlStream]),
+    formatStandaloneMonth: dart.fnType(core.String, [core.DateTime]),
+    parseStandaloneMonth: dart.fnType(dart.void, [dart.dynamic, dart.dynamic]),
+    formatQuarter: dart.fnType(core.String, [core.DateTime]),
+    formatDayOfMonth: dart.fnType(core.String, [core.DateTime]),
+    formatDayOfYear: dart.fnType(core.String, [core.DateTime]),
+    formatDayOfWeek: dart.fnType(core.String, [core.DateTime]),
+    parseDayOfWeek: dart.fnType(dart.void, [intl_stream.IntlStream]),
+    parseEra: dart.fnType(dart.void, [intl_stream.IntlStream]),
+    formatMinutes: dart.fnType(core.String, [core.DateTime]),
+    formatSeconds: dart.fnType(core.String, [core.DateTime]),
+    formatTimeZoneId: dart.fnType(core.String, [core.DateTime]),
+    formatTimeZone: dart.fnType(core.String, [core.DateTime]),
+    formatTimeZoneRFC: dart.fnType(core.String, [core.DateTime]),
+    padTo: dart.fnType(core.String, [core.int, core.Object])
   }));
-  dart.setLibraryUri(tween.CurveTween, I[6]);
-  dart.setFieldSignature(tween.CurveTween, () => ({
-    __proto__: dart.getFields(tween.CurveTween.__proto__),
-    curve: dart.fieldType(curves.Curve)
+  dart.setGetterSignature(date_format._DateFormatPatternField, () => ({
+    __proto__: dart.getGetters(date_format._DateFormatPatternField.__proto__),
+    symbols: date_symbols.DateSymbols
   }));
-  dart.defineExtensionMethods(tween.CurveTween, ['toString']);
-  animation$.AnimationStatus = class AnimationStatus extends core.Object {
-    toString() {
-      return this[_name$];
+  dart.setLibraryUri(date_format._DateFormatPatternField, I[0]);
+  dart.setFieldSignature(date_format._DateFormatPatternField, () => ({
+    __proto__: dart.getFields(date_format._DateFormatPatternField.__proto__),
+    [_forDate]: dart.fieldType(dart.nullable(core.bool))
+  }));
+  date_format._LoosePatternField = class _LoosePatternField extends date_format._DateFormatPatternField {
+    parseEnumeratedString(input, possibilities) {
+      let lowercasePossibilities = possibilities[$map](core.String, dart.fn(x => x[$toLowerCase](), T.StringToString()))[$toList]();
+      try {
+        return super.parseEnumeratedString(input, lowercasePossibilities);
+      } catch (e) {
+        let ex = dart.getThrown(e);
+        if (core.FormatException.is(ex)) {
+          return -1;
+        } else
+          throw e;
+      }
+    }
+    parseMonth(input, dateFields) {
+      if (this.width <= 2) {
+        this.handleNumericField(input, dart.bind(dateFields, 'setMonth'));
+        return;
+      }
+      let possibilities = T.JSArrayOfListOfString().of([this.symbols.MONTHS, this.symbols.SHORTMONTHS]);
+      for (let monthNames of possibilities) {
+        let month = this.parseEnumeratedString(input, monthNames);
+        if (month !== -1) {
+          dateFields.month = month + 1;
+          return;
+        }
+      }
+      this.throwFormatException(input);
+    }
+    parseStandaloneDay(input) {
+      if (this.width <= 2) {
+        this.handleNumericField(input, dart.fn(x => x, T.intTovoid()));
+        return;
+      }
+      let possibilities = T.JSArrayOfListOfString().of([this.symbols.STANDALONEWEEKDAYS, this.symbols.STANDALONESHORTWEEKDAYS]);
+      for (let dayNames of possibilities) {
+        let day = this.parseEnumeratedString(input, dayNames);
+        if (day !== -1) {
+          return;
+        }
+      }
+    }
+    parseStandaloneMonth(input, dateFields) {
+      if (this.width <= 2) {
+        this.handleNumericField(intl_stream.IntlStream.as(input), T.intTovoid().as(dart.dload(dateFields, 'setMonth')));
+        return;
+      }
+      let possibilities = T.JSArrayOfListOfString().of([this.symbols.STANDALONEMONTHS, this.symbols.STANDALONESHORTMONTHS]);
+      for (let monthNames of possibilities) {
+        let month = this.parseEnumeratedString(intl_stream.IntlStream.as(input), monthNames);
+        if (month !== -1) {
+          dart.dput(dateFields, 'month', month + 1);
+          return;
+        }
+      }
+      this.throwFormatException(intl_stream.IntlStream.as(input));
+    }
+    parseDayOfWeek(input) {
+      if (this.width <= 2) {
+        this.handleNumericField(input, dart.fn(x => x, T.intTovoid()));
+        return;
+      }
+      let possibilities = T.JSArrayOfListOfString().of([this.symbols.WEEKDAYS, this.symbols.SHORTWEEKDAYS]);
+      for (let dayNames of possibilities) {
+        let day = this.parseEnumeratedString(input, dayNames);
+        if (day !== -1) {
+          return;
+        }
+      }
     }
   };
-  (animation$.AnimationStatus.new = function(index, _name) {
-    this.index = index;
-    this[_name$] = _name;
+  (date_format._LoosePatternField.new = function(pattern, parent) {
+    date_format._LoosePatternField.__proto__.new.call(this, pattern, parent);
     ;
-  }).prototype = animation$.AnimationStatus.prototype;
-  dart.addTypeTests(animation$.AnimationStatus);
-  dart.addTypeCaches(animation$.AnimationStatus);
-  dart.setLibraryUri(animation$.AnimationStatus, I[3]);
-  dart.setFieldSignature(animation$.AnimationStatus, () => ({
-    __proto__: dart.getFields(animation$.AnimationStatus.__proto__),
-    index: dart.finalFieldType(core.int),
-    [_name$]: dart.finalFieldType(core.String)
-  }));
-  dart.defineExtensionMethods(animation$.AnimationStatus, ['toString']);
-  animation$.AnimationStatus.dismissed = C[3] || CT.C3;
-  animation$.AnimationStatus.forward = C[0] || CT.C0;
-  animation$.AnimationStatus.reverse = C[1] || CT.C1;
-  animation$.AnimationStatus.completed = C[2] || CT.C2;
-  animation$.AnimationStatus.values = C[9] || CT.C9;
-  dart.trackLibraries("packages/flutter/src/animation/listener_helpers.dart", {
-    "package:flutter/src/animation/listener_helpers.dart": listener_helpers,
-    "package:flutter/src/animation/animations.dart": animations,
-    "package:flutter/src/animation/tween.dart": tween,
-    "package:flutter/src/animation/animation.dart": animation$
+  }).prototype = date_format._LoosePatternField.prototype;
+  dart.addTypeTests(date_format._LoosePatternField);
+  dart.addTypeCaches(date_format._LoosePatternField);
+  dart.setLibraryUri(date_format._LoosePatternField, I[0]);
+  dart.trackLibraries("packages/intl/src/intl/date_format.dart", {
+    "package:intl/src/intl/date_format.dart": date_format
   }, {
-  }, '{"version":3,"sourceRoot":"","sources":["listener_helpers.dart","animation.dart","animations.dart","tween.dart"],"names":[],"mappings":"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","file":"../../../../../../../../packages/flutter/src/animation/listener_helpers.dart.lib.js"}');
+    "package:intl/src/intl/date_format.dart": ["date_format_field.dart"]
+  }, '{"version":3,"sourceRoot":"","sources":["date_format.dart","date_format_field.dart"],"names":[],"mappings":"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","file":"../../../../../../../../../../packages/intl/src/intl/date_format.dart.lib.js"}');
   // Exports:
   return {
-    src__animation__listener_helpers: listener_helpers,
-    src__animation__animations: animations,
-    src__animation__tween: tween,
-    src__animation__animation: animation$
+    src__intl__date_format: date_format
   };
 }));
 
-//# sourceMappingURL=listener_helpers.dart.lib.js.map
+//# sourceMappingURL=date_format.dart.lib.js.map

@@ -10,18 +10,15 @@ class PageDataDiri extends StatefulWidget {
 
   @override
   _PageDataDiriState createState() => _PageDataDiriState();
-  
 }
 
 class _PageDataDiriState extends State<PageDataDiri> {
   final _formKey = GlobalKey<FormBuilderState>();
-  
-
 
   TextEditingController namaController = new TextEditingController();
   TextEditingController tempatController = new TextEditingController();
   TextEditingController jalanController = new TextEditingController();
-  TextEditingController jalanFixController = new TextEditingController();
+  TextEditingController getJalanController = new TextEditingController();
   TextEditingController tglController = new TextEditingController();
 
   var provinsi = ["Jakarta", "Bandung", "Banten"];
@@ -31,17 +28,21 @@ class _PageDataDiriState extends State<PageDataDiri> {
   var rt = ["01", "02", "03", "04", "05"];
   var rw = ["001", "002", "003", "004", "005"];
 
-  String Jk = "";
-  String Provinsi = "";
-  String Kota = "";
-  String Kecamatan = "";
-  String Kelurahan = "";
-  String Rt = "";
-  String Rw = "";
+  String jenisKelamin = "";
+  String provinsiPertama = "";
+  String kotaPertama = "";
+  String kecamatanPertama = "";
+  String kelurahanPertama = "";
+  String rtPertama = "";
+  String rwPertama = "";
 
+  String? getProvinsi;
+  String? getKota;
+  String? getKecamatan;
+  String? getKelurahan;
+  String? getRt;
+  String? getRw;
 
-
-  String GetProvinsi = "";
   void _getData() {
     AlertDialog alertDialog = new AlertDialog(
       content: new Container(
@@ -56,7 +57,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
             SizedBox(
               height: 8,
             ),
-            new Text("Jk : ${Jk}"),
+            new Text("Jk : ${jenisKelamin}"),
             SizedBox(
               height: 8,
             ),
@@ -64,7 +65,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
             SizedBox(
               height: 8,
             ),
-            new Text("Jalan : ${jalanController.text}"),
+            new Text("Jalan : ${getJalanController.text}"),
             SizedBox(
               height: 8,
             ),
@@ -72,27 +73,27 @@ class _PageDataDiriState extends State<PageDataDiri> {
             SizedBox(
               height: 8,
             ),
-            new Text("Provinsi : ${Provinsi}"),
+            new Text("Provinsi : ${getProvinsi}"),
             SizedBox(
               height: 8,
             ),
-            new Text("Kota : ${Kota}"),
+            new Text("Kota : ${getKota}"),
             SizedBox(
               height: 8,
             ),
-            new Text("Kecamatan : ${Kecamatan}"),
+            new Text("Kecamatan : ${getKecamatan}"),
             SizedBox(
               height: 8,
             ),
-            new Text("Kelurahan : ${Kelurahan}"),
+            new Text("Kelurahan : ${getKelurahan}"),
             SizedBox(
               height: 8,
             ),
-            new Text("Rt : ${Rt}"),
+            new Text("Rt : ${getRt}"),
             SizedBox(
               height: 8,
             ),
-            new Text("Rw : ${Rw}"),
+            new Text("Rw : ${getRw}"),
             SizedBox(
               height: 25,
             ),
@@ -334,9 +335,9 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   options: ['Laki - Laki', 'Perempuan']
                       .map((lang) => FormBuilderFieldOption(value: lang))
                       .toList(growable: false),
-                  onChanged: (lang){
+                  onChanged: (lang) {
                     setState(() {
-                      Jk = lang.toString();
+                      jenisKelamin = lang.toString();
                     });
                   },
                 ),
@@ -516,7 +517,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderDropdown(
-                  name: 'povinsi',
+                  name: 'provinsi',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: ColorPalette.gray300),
@@ -543,10 +544,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                           ))
                       .toList(),
                   onChanged: (provinsi) {
-                    setState(() {
-                      Provinsi = provinsi.toString();
-                      GetProvinsi = Provinsi.toString();
-                    });
+                    provinsiPertama = provinsi.toString();
                   },
                 ),
               ],
@@ -598,7 +596,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                           ))
                       .toList(),
                   onChanged: (kota) {
-                    Kota = kota.toString();
+                    kotaPertama = kota.toString();
                   },
                 ),
               ],
@@ -650,7 +648,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                           ))
                       .toList(),
                   onChanged: (kecamatan) {
-                    Kecamatan = kecamatan.toString();
+                    kecamatanPertama = kecamatan.toString();
                   },
                 ),
               ],
@@ -702,7 +700,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                           ))
                       .toList(),
                   onChanged: (kelurahan) {
-                    Kelurahan = kelurahan.toString();
+                    kelurahanPertama = kelurahan.toString();
                   },
                 ),
               ],
@@ -755,7 +753,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             ))
                         .toList(),
                     onChanged: (rt) {
-                      Rt = rt.toString();
+                      rtPertama = rt.toString();
                     },
                   ),
                 ],
@@ -805,7 +803,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             ))
                         .toList(),
                     onChanged: (rw) {
-                      Rw = rw.toString();
+                      rwPertama = rw.toString();
                     },
                   ),
                 ],
@@ -870,13 +868,26 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     // errorText:
                     //     'You must accept terms and conditions to continue',
                   ),
-                  onChanged: (checkbox){
-                    if(checkbox == true){
-                      jalanFixController.text = jalanController.text;
-                      GetProvinsi = Provinsi;
-                      print('provinsi ' + GetProvinsi);
-                      
-                    }else{
+                  onChanged: (checkbox) {
+                    if (checkbox == true) {
+                      getJalanController.text = jalanController.text;
+
+                      getProvinsi = provinsiPertama;
+                      getKota = kotaPertama;
+                      getKecamatan = kecamatanPertama;
+                      getKelurahan = kelurahanPertama;
+                      getRt = rtPertama;
+                      getRw = rwPertama;
+
+                      _formKey.currentState?.fields['getProvinsi']?.didChange(getProvinsi);
+                      _formKey.currentState?.fields['getKota']?.didChange(getKota);
+                      _formKey.currentState?.fields['getKecamatan']?.didChange(getKecamatan);
+                      _formKey.currentState?.fields['getKelurahan']?.didChange(getKelurahan);
+                      _formKey.currentState?.fields['getRt']?.didChange(getRt);
+                      _formKey.currentState?.fields['getRw']?.didChange(getRw);
+
+
+                    } else {
                       print("salah");
                     }
                   },
@@ -903,7 +914,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderTextField(
-                  controller: jalanFixController,
+                  controller: getJalanController,
                   name: 'jalanFix',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -946,7 +957,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderDropdown(
-                  name: GetProvinsi,
+                  name: "getProvinsi",
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: ColorPalette.gray300),
@@ -961,12 +972,10 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     fillColor: ColorPalette.gray300,
                     filled: true,
                   ),
-                  initialValue: GetProvinsi.toString(),
+                  // initialValue: getProvinsi.toString(),
                   allowClear: true,
-                  
                   hint: Text('Select Provinsi'),
                   validator: FormBuilderValidators.compose(
-                    
                       [FormBuilderValidators.required(context)]),
                   items: provinsi
                       .map((provinsi) => DropdownMenuItem(
@@ -974,7 +983,6 @@ class _PageDataDiriState extends State<PageDataDiri> {
                             child: Text('$provinsi'),
                           ))
                       .toList(),
-                      
                 ),
               ],
             ),
@@ -998,7 +1006,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderDropdown(
-                  name: 'kotaFix',
+                  name: 'getKota',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: ColorPalette.gray300),
@@ -1047,7 +1055,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderDropdown(
-                  name: 'kecamatanFix',
+                  name: 'getKecamatan',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: ColorPalette.gray300),
@@ -1096,7 +1104,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                   height: 8,
                 ),
                 FormBuilderDropdown(
-                  name: 'kelurahanFix',
+                  name: 'getKelurahan',
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: ColorPalette.gray300),
@@ -1146,7 +1154,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     ),
                   ),
                   FormBuilderDropdown(
-                    name: 'rtFix',
+                    name: 'getRt',
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: ColorPalette.gray300),
@@ -1193,7 +1201,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     ),
                   ),
                   FormBuilderDropdown(
-                    name: 'rwFix',
+                    name: 'getRw',
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: ColorPalette.gray300),
