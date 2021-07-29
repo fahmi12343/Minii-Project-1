@@ -30,6 +30,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final TextEditingController _getjalanController = TextEditingController();
   final TextEditingController _tempatController = TextEditingController();
 
+  
+
   @override
   void initState() {
     super.initState();
@@ -103,28 +105,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        BlocProvider.of<DashboardBloc>(context).add(
-                          SaveDashboard(
-                            data: DataDiri(
-                                key: _keyController.text,
-                                name: _nameController.text,
-                                jalan: _getjalanController.text,
-                                tempat: _tempatController.text,),
-                          ),
-                        );
+                        // BlocProvider.of<DashboardBloc>(context).add(
+                        //   SaveDashboard(
+                        //     data: DataDiri(
+                        //       key: _keyController.text,
+                        //       name: _nameController.text,
+                        //       jalan: _getjalanController.text,
+                        //       tempat: _tempatController.text,
+                        //       jenisKelamin: jenis,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Text('Simpan')),
                   ElevatedButton(
                       onPressed: () {
-                        BlocProvider.of<DashboardBloc>(context).add(
-                          EditDashboard(
-                            data: DataDiri(
-                                key: _keyController.text,
-                                name: _nameController.text,
-                                jalan: _getjalanController.text,
-                                tempat: _tempatController.text,),
-                          ),
-                        );
+                        // BlocProvider.of<DashboardBloc>(context).add(
+                        //   EditDashboard(
+                        //     data: DataDiri(
+                        //       key: _keyController.text,
+                        //       name: _nameController.text,
+                        //       jalan: _getjalanController.text,
+                        //       tempat: _tempatController.text,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Text('Edit')),
                   ElevatedButton(onPressed: () {}, child: Text('Hapus')),

@@ -24,7 +24,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
   TextEditingController _tempatController = new TextEditingController();
   TextEditingController jalanController = new TextEditingController();
   TextEditingController _getJalanController = new TextEditingController();
-  TextEditingController tglController = new TextEditingController();
+  TextEditingController _tglController = new TextEditingController();
 
   var provinsi = ["Jakarta", "Bandung", "Banten"];
   var kota = ["Cengkareng", "Tangerang Selatan", "Cimahi"];
@@ -473,7 +473,7 @@ class _PageDataDiriState extends State<PageDataDiri> {
                     ),
                   ),
                   FormBuilderDateTimePicker(
-                    controller: tglController,
+                    controller: _tglController,
                     name: 'date',
                     inputType: InputType.date,
                     decoration: new InputDecoration(
@@ -950,16 +950,16 @@ class _PageDataDiriState extends State<PageDataDiri> {
                       getRt = rtPertama;
                       getRw = rwPertama;
 
-                      // _formKey.currentState?.fields['getProvinsi']
-                      //     ?.didChange(getProvinsi);
-                      // _formKey.currentState?.fields['getKota']
-                      //     ?.didChange(getKota);
-                      // _formKey.currentState?.fields['getKecamatan']
-                      //     ?.didChange(getKecamatan);
-                      // _formKey.currentState?.fields['getKelurahan']
-                      //     ?.didChange(getKelurahan);
-                      // _formKey.currentState?.fields['getRt']?.didChange(getRt);
-                      // _formKey.currentState?.fields['getRw']?.didChange(getRw);
+                      _formKey.currentState?.fields['getProvinsi']
+                          ?.didChange(getProvinsi);
+                      _formKey.currentState?.fields['getKota']
+                          ?.didChange(getKota);
+                      _formKey.currentState?.fields['getKecamatan']
+                          ?.didChange(getKecamatan);
+                      _formKey.currentState?.fields['getKelurahan']
+                          ?.didChange(getKelurahan);
+                      _formKey.currentState?.fields['getRt']?.didChange(getRt);
+                      _formKey.currentState?.fields['getRw']?.didChange(getRw);
                     } else {
                       print("salah");
                     }
@@ -1361,7 +1361,16 @@ class _PageDataDiriState extends State<PageDataDiri> {
                                 key: _keyController.text,
                                 name: _namaController.text,
                                 tempat: _tempatController.text,
-                                jalan: _getJalanController.text),
+                                jalan: _getJalanController.text,
+                                jenisKelamin: jenisKelamin,
+                                tanggalLahir: _tglController.text,
+                                provinsi: getProvinsi,
+                                kota: getKota,
+                                kecamatan: getKecamatan,
+                                kelurahan: getKelurahan,
+                                rt: getRt,
+                                rw: getRw,
+                                ),
                           ),
                 );
 

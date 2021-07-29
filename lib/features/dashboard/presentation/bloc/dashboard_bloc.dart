@@ -40,7 +40,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       //   yield DashboardFailure();
       // }
       final failureOrSuccess = await _addDashboard(
-          DataDiri(key: event.data.key, name: event.data.name, tempat: event.data.tempat, jalan: event.data.jalan ));
+          DataDiri(key: event.data.key, name: event.data.name, tempat: event.data.tempat, jalan: event.data.jalan, jenisKelamin: event.data.jenisKelamin, tanggalLahir: event.data.tanggalLahir, provinsi: event.data.provinsi, kota: event.data.kota, kecamatan: event.data.kecamatan, kelurahan: event.data.kelurahan, rt: event.data.rt, rw: event.data.rw));
       yield failureOrSuccess.fold(
         (failure) => DashboardFailure(),
         (success) => AddDashboardSuccess(isSuccess: success),
@@ -55,7 +55,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       //   yield DashboardFailure();
       // }
       final failureOrSuccess = await _editDashboard(
-          DataDiri(key: event.data.key, name: event.data.name, tempat: event.data.tempat, jalan: event.data.jalan ));
+          DataDiri(key: event.data.key, name: event.data.name, tempat: event.data.tempat, jalan: event.data.jalan, jenisKelamin: event.data.jenisKelamin, tanggalLahir: event.data.tanggalLahir, provinsi: event.data.provinsi, kota: event.data.kota, kecamatan: event.data.kecamatan, kelurahan: event.data.kelurahan, rt: event.data.rt, rw: event.data.rw));
       yield failureOrSuccess.fold(
         (failure) => DashboardFailure(),
         (success) => AddDashboardSuccess(isSuccess: success),
